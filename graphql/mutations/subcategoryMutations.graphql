@@ -1,0 +1,25 @@
+mutation CreateSubCategory($data: CreateSubCategoryInput!) {
+  createSubCategory(data: $data) {
+    id
+    name
+    slug
+    categoryId
+  }
+}
+
+mutation UpdateSubCategory($id: String!, $data: UpdateSubCategoryInput!) {
+  updateSubCategory(id: $id, data: $data) {
+    id
+    name
+    slug
+    categoryId
+  }
+}
+
+mutation DeleteSubCategory($id: String!) {
+  deleteSubCategory(id: $id) {
+    id
+    name
+    slug
+  }
+}

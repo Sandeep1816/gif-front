@@ -1,0 +1,36 @@
+query GetSubCategories {
+  subcategories {
+    id
+    name
+    slug
+    categoryId
+    category {
+      id
+      name
+      slug
+    }
+  }
+}
+
+query GetSubCategory($id: String!) {
+  subcategory(id: $id) {
+    id
+    name
+    slug
+    categoryId
+    category {
+      id
+      name
+      slug
+    }
+  }
+}
+
+query GetSubCategoriesByCategory($categoryId: String!) {
+  subcategories {
+    id
+    name
+    slug
+    categoryId
+  }
+}

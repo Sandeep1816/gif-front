@@ -1,0 +1,44 @@
+query GetProducts {
+  products {
+    id
+    title
+    slug
+    description
+    imageUrl
+    price
+    stock
+    isFavourite
+    categoryId
+    subCategoryId
+  }
+}
+
+query GetProduct($id: String!) {
+  product(id: $id) {
+    id
+    title
+    slug
+    description
+    imageUrl
+    price
+    stock
+    isFavourite
+    categoryId
+    subCategoryId
+  }
+}
+
+query GetProductBySlug($slug: String!) {
+  productBySlug(slug: $slug) {
+    id
+    title
+    slug
+    description
+    imageUrl
+    price
+    stock
+    isFavourite
+    categoryId
+    subCategoryId
+  }
+}
