@@ -36,7 +36,6 @@ export default function BuyNowModal({ product, onClose }: any) {
       const data = await res.json();
 
       if (!res.ok) {
-        console.error("Error:", data);
         alert("Failed to submit order");
         return;
       }
@@ -44,59 +43,77 @@ export default function BuyNowModal({ product, onClose }: any) {
       alert("Order submitted successfully!");
       onClose();
     } catch (err) {
-      console.error("Network Error:", err);
       alert("Something went wrong!");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-xl w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-4">Buy: {product.title}</h2>
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
+      {/* MODAL CARD */}
+      <div className="bg-[#FFF3E5] w-full max-w-lg rounded-2xl shadow-xl border border-[#F5DCC7] p-6">
+
+        <h2 className="text-2xl font-bold text-[#4A3728] mb-4">
+          Buy: {product.title}
+        </h2>
+
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <Form className="space-y-4">
 
+            {/* Name */}
             <div>
-              <label className="font-medium">Name</label>
-              <Field name="name" className="w-full p-2 border rounded-lg" />
+              <label className="font-medium text-[#4A3728]">Name</label>
+              <Field
+                name="name"
+                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+              />
               <ErrorMessage name="name" component="p" className="text-red-500 text-sm" />
             </div>
 
+            {/* Email */}
             <div>
-              <label className="font-medium">Email</label>
-              <Field name="email" className="w-full p-2 border rounded-lg" />
+              <label className="font-medium text-[#4A3728]">Email</label>
+              <Field
+                name="email"
+                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+              />
               <ErrorMessage name="email" component="p" className="text-red-500 text-sm" />
             </div>
 
+            {/* Phone */}
             <div>
-              <label className="font-medium">Phone</label>
-              <Field name="phone" className="w-full p-2 border rounded-lg" />
+              <label className="font-medium text-[#4A3728]">Phone</label>
+              <Field
+                name="phone"
+                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+              />
               <ErrorMessage name="phone" component="p" className="text-red-500 text-sm" />
             </div>
 
+            {/* Message */}
             <div>
-              <label className="font-medium">Message</label>
+              <label className="font-medium text-[#4A3728]">Message</label>
               <Field
-                name="message"
                 as="textarea"
-                className="w-full p-2 border rounded-lg h-24"
+                name="message"
+                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg h-28 text-[#4A3728] resize-none focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
               />
               <ErrorMessage name="message" component="p" className="text-red-500 text-sm" />
             </div>
 
-            <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            {/* Submit */}
+            <button
+              type="submit"
+              className="w-full py-3 rounded-lg bg-[#F6D4BD] text-[#4A3728] font-semibold hover:bg-[#E8C5AC] transition shadow-sm"
+            >
               Submit Order
             </button>
 
+            {/* Cancel */}
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-2 bg-gray-200 rounded-lg hover:bg-gray-300 mt-2"
+              className="w-full py-3 bg-[#F0E6DD] rounded-lg text-[#4A3728] hover:bg-[#E6D9CF] transition mt-2"
             >
               Cancel
             </button>

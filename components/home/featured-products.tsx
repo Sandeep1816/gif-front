@@ -1,6 +1,5 @@
 "use client";
 
-import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 import { useGetProductsQuery } from "@/generated/graphql";
 import BuyNowModal from "@/components/BuyNowModal";
@@ -13,24 +12,17 @@ export default function FeaturedProducts() {
   if (loading) return <p className="p-6">Loading featured products...</p>;
   if (error) return <p className="p-6 text-red-500">Failed to load products</p>;
 
-  // ⭐ Filter only favourite products
   const featuredProducts =
     data?.products?.filter((p) => p.isFavourite === true) ?? [];
 
   return (
-    <section className="bg-muted py-12 md:py-16">
+    <section className="bg-[#FFFBF2] py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mb-12">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-black text-foreground">
-              Your Favourite Picks
-            </h2>
-            <p className="text-muted-foreground mt-2">Packed with love</p>
-          </div>
-          <button className="text-primary hover:text-accent font-semibold">
-            View All →
-          </button>
-        </div>
+
+        {/* Section Title */}
+        <h2 className="text-3xl md:text-4xl font-bold text-[#4A3728] mb-10">
+          Trending Gifts
+        </h2>
 
         {featuredProducts.length === 0 && (
           <p className="text-center text-gray-500">
@@ -38,66 +30,51 @@ export default function FeaturedProducts() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {/* PRODUCT GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {featuredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition group"
+              className="rounded-2xl overflow-hidden bg-[#FFF3E5] 
+                         border border-[#F5DCC7] shadow-sm 
+                         hover:shadow-md transition flex flex-col"
             >
-              <div className="relative h-64 bg-gray-200 overflow-hidden">
+              {/* IMAGE */}
+              <div className="relative h-56 bg-[#FFEFE0]">
                 <Image
                   src={product.imageUrl || "/placeholder.svg"}
                   alt={product.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition"
+                  className="object-cover transition-transform duration-300 hover:scale-105"
                 />
-
-                <button className="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-muted transition">
-                  <Heart className="w-5 h-5 text-muted-foreground hover:text-accent" />
-                </button>
-
-                <span className="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Featured
-                </span>
               </div>
 
-              <div className="p-4">
-                <h3 className="font-bold text-foreground text-sm mb-2 line-clamp-2">
+              {/* CONTENT */}
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-semibold text-[#4A3728] text-sm mb-2 leading-tight">
                   {product.title}
                 </h3>
 
-                <div className="flex items-center gap-1 mb-3">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-3 h-3 fill-yellow-400 text-yellow-400"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-muted-foreground">5.0</span>
-                </div>
+                <p className="text-base font-semibold text-[#8B6F47] mb-4">
+                  ₹{product.price}
+                </p>
 
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-primary">
-                    ₹{product.price}
-                  </span>
-
-                  {/* ⭐ WHEN USER CLICKS ADD → OPEN MODAL */}
-                  <button
-                    onClick={() => setSelectedProduct(product)}
-                    className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
-                  >
-                    Add
-                  </button>
-                </div>
+                {/* Button */}
+                <button
+                  onClick={() => setSelectedProduct(product)}
+                  className="bg-[#F6D4BD] hover:bg-[#E8C5AC] 
+                             text-[#4A3728] font-medium 
+                             py-2 rounded-md text-sm shadow-sm 
+                             transition"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ⭐ SHOW BUY NOW MODAL WHEN PRODUCT SELECTED */}
       {selectedProduct && (
         <BuyNowModal
           product={selectedProduct}

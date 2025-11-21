@@ -47,37 +47,49 @@ export default function ProductDetailPage({ params }: Props) {
   if (!product) return <p>Product not found</p>;
 
   return (
-    <main className="container mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="relative w-full h-96">
-          <Image
-            src={product.imageUrl || "/placeholder.png"}
-            alt={product.title}
-            fill
-            className="object-cover rounded-xl"
-          />
-        </div>
+    <main className="min-h-screen bg-[#FFFBF2] py-10">
+      <div className="container mx-auto px-4">
 
-        <div>
-          <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-          <p className="text-gray-600 mb-4">{product.description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
-          <p className="text-4xl font-bold text-blue-700 mb-6">
-            ₹{product.price}
-          </p>
+          {/* LEFT - PRODUCT IMAGE */}
+          <div className="bg-[#FFF3E5] border border-[#F5DCC7] rounded-2xl p-4 shadow-sm">
+            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-[#F8EBDD]">
+              <Image
+                src={product.imageUrl || "/placeholder.png"}
+                alt={product.title}
+                fill
+                className="object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          </div>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="bg-blue-600 text-white px-5 py-3 rounded-lg text-lg"
-          >
-            Buy Now
-          </button>
+          {/* RIGHT - DETAILS */}
+          <div className="flex flex-col justify-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#4A3728] mb-4">
+              {product.title}
+            </h1>
+
+            <p className="text-[#8B7A6A] mb-6 leading-relaxed">
+              {product.description}
+            </p>
+
+            <p className="text-4xl font-bold text-[#8B6F47] mb-8">
+              ₹{product.price}
+            </p>
+
+            <button
+              onClick={() => setOpen(true)}
+              className="bg-[#F6D4BD] hover:bg-[#E8C5AC] text-[#4A3728] font-semibold 
+                         px-6 py-3 rounded-lg text-lg transition shadow-sm w-fit"
+            >
+              Buy Now
+            </button>
+          </div>
         </div>
       </div>
 
-      {open && (
-        <BuyNowModal product={product} onClose={() => setOpen(false)} />
-      )}
+      {open && <BuyNowModal product={product} onClose={() => setOpen(false)} />}
     </main>
   );
 }
