@@ -3,6 +3,7 @@
 import { Search, MapPin, Heart, ShoppingCart, User, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
+import SearchBar from './SearchBar'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -24,7 +25,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main Header (reduced height) */}
+      {/* Main Header */}
       <div className="px-4 md:px-6 py-2">
         <div className="flex items-center justify-between gap-4 mb-2">
 
@@ -33,24 +34,15 @@ export default function Header() {
             <Image
               src="/logo.png"
               alt="Gifts Destiny Logo"
-              width={95}     // reduced size
+              width={95}
               height={26}
               className="object-contain"
             />
           </div>
 
-          {/* Search Bar */}
+          {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-md">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Search for gifts"
-                className="w-full px-4 py-1.5 bg-[#FFF9F1] border border-[#EBD8C7] 
-                           rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]
-                           text-[#4A3728] placeholder:text-[#8B7A6A]"
-              />
-              <Search className="absolute right-3 top-2 w-4 h-4 text-[#8B7A6A]" />
-            </div>
+            <SearchBar />
           </div>
 
           {/* Icons */}
@@ -77,22 +69,12 @@ export default function Header() {
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-
           </div>
         </div>
 
-        {/* Mobile Search (reduced height) */}
-        <div className="md:hidden">
-          <div className="relative w-full">
-            <input
-              type="text"
-              placeholder="Search for gifts"
-              className="w-full px-4 py-1.5 bg-[#FFF9F1] border border-[#EBD8C7] 
-                         rounded-lg focus:ring-[#F6D4BD] text-[#4A3728]
-                         placeholder:text-[#8B7A6A]"
-            />
-            <Search className="absolute right-3 top-2 w-4 h-4 text-[#8B7A6A]" />
-          </div>
+        {/* Mobile Search */}
+        <div className="md:hidden mt-2">
+          <SearchBar />
         </div>
 
         {/* Mobile Dropdown Menu */}
@@ -101,9 +83,11 @@ export default function Header() {
             <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
               Wishlist
             </button>
+
             <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
               Cart
             </button>
+
             <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
               Account
             </button>
