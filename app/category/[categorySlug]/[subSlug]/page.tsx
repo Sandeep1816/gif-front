@@ -51,11 +51,12 @@ export default function SubCategoryPage({ params }: Props) {
           {filteredProducts.map((p) => (
             <div
               key={p.id}
-              className="bg-[#FFF3E5] border border-[#F5DCC7] p-4 rounded-2xl 
+              className="bg-[#FFF9F1] border border-[#EBD8C7] p-4 rounded-2xl 
                          shadow-sm hover:shadow-md transition flex flex-col"
             >
               {/* Image */}
-              <div className="relative h-48 w-full rounded-xl overflow-hidden bg-[#F8EBDD]">
+              <div className="relative h-48 w-full rounded-xl overflow-hidden 
+                              bg-[#FFF3E5] border border-[#F5DCC7]">
                 <Image
                   src={p.imageUrl || "/placeholder.png"}
                   alt={p.title}
@@ -69,17 +70,17 @@ export default function SubCategoryPage({ params }: Props) {
                 {p.title}
               </h2>
 
-              {/* Price (optional) */}
+              {/* Price */}
               {p.price && (
-                <p className="text-[#8B6F47] font-semibold mt-1">
+                <p className="text-[#6B5847] font-semibold mt-1">
                   ₹{p.price}
                 </p>
               )}
 
-              {/* View Button opens modal */}
+              {/* Buy Now Button */}
               <button
                 onClick={() => setSelectedProduct(p)}
-                className="mt-4 bg-[#F6D4BD] hover:bg-[#E8C5AC] 
+                className="mt-4 bg-[#EEC2B3] hover:bg-[#D4A896] 
                            text-[#4A3728] font-semibold py-2 rounded-lg transition"
               >
                 Buy Now

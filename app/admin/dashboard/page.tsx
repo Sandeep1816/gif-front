@@ -55,41 +55,52 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="space-y-10">
-      <h1 className="text-3xl font-bold">Dashboard Overview</h1>
+    <div className="space-y-10 p-6 bg-[#FFFBF2] min-h-screen">
+
+      <h1 className="text-3xl font-bold text-[#4A3728]">Dashboard Overview</h1>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        {/* Products */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-lg font-semibold text-gray-600">Total Products</h2>
-          <p className="text-4xl font-bold mt-3 text-blue-600">{totalProducts}</p>
-        </div>
 
-        {/* Categories */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-lg font-semibold text-gray-600">Total Categories</h2>
-          <p className="text-4xl font-bold mt-3 text-green-600">{totalCategories}</p>
-        </div>
+        <Card title="Total Products" count={totalProducts} color="#8B6F47" />
+        <Card title="Total Categories" count={totalCategories} color="#4A3728" />
+        <Card title="Total Subcategories" count={totalSubCategories} color="#8B7A6A" />
 
-        {/* Subcategories */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-lg font-semibold text-gray-600">Total Subcategories</h2>
-          <p className="text-4xl font-bold mt-3 text-purple-600">{totalSubCategories}</p>
-        </div>
       </div>
 
-      {/* Recent Products Table */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <h2 className="text-xl font-bold mb-4">Recent Products</h2>
-
-        {totalProducts === 0 ? (
-          <p className="text-gray-500">No products available.</p>
+      {/* Recent Categories */}
+      {/* <Section title="Recent Categories">
+        {categories.length === 0 ? (
+          <Empty />
         ) : (
-          <table className="w-full border-collapse text-left">
+          <Table>
             <thead>
-              <tr className="border-b text-gray-600">
+              <tr className="border-b border-[#EBD8C7] text-[#6B5847]">
+                <th className="p-3">Name</th>
+                <th className="p-3">Slug</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {categories.slice(0, 5).map((c) => (
+                <tr key={c.id} className="border-b border-[#EBD8C7] hover:bg-[#FFF3E5] transition">
+                  <td className="p-3 font-medium text-[#4A3728]">{c.name}</td>
+                  <td className="p-3 text-[#8B7A6A]">{c.slug}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Section> */}
+
+      {/* Recent Products */}
+      {/* <Section title="Recent Products">
+        {products.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table>
+            <thead>
+              <tr className="border-b border-[#EBD8C7] text-[#6B5847]">
                 <th className="p-3">Image</th>
                 <th className="p-3">Product</th>
                 <th className="p-3">Price</th>
@@ -99,39 +110,31 @@ export default function AdminDashboard() {
 
             <tbody>
               {products.slice(0, 5).map((p) => (
-                <tr key={p.id} className="border-b hover:bg-gray-50 transition">
-                  
-                  {/* Image */}
+                <tr key={p.id} className="border-b border-[#EBD8C7] hover:bg-[#FFF3E5] transition">
+
                   <td className="p-3">
                     <Image
                       src={p.imageUrl || "/placeholder.png"}
-                      alt={p.title}
                       width={60}
                       height={60}
-                      className="rounded object-cover border"
+                      alt={p.title}
+                      className="rounded border border-[#F5DCC7]"
                     />
                   </td>
 
-                  {/* Title + Slug */}
                   <td className="p-3">
-                    <p className="font-semibold">{p.title}</p>
-                    <p className="text-sm text-gray-500">{p.slug}</p>
+                    <p className="font-semibold text-[#4A3728]">{p.title}</p>
+                    <p className="text-sm text-[#8B7A6A]">{p.slug}</p>
                   </td>
 
-                  {/* Price */}
-                  <td className="p-3 font-medium text-blue-700">
-                    ₹{(p.price).toLocaleString("en-IN")}
+                  <td className="p-3 font-medium text-[#8B6F47]">
+                    ₹{p.price}
                   </td>
 
-                  {/* Actions */}
-                  <td className="p-3 text-right flex items-center gap-4 justify-end">
-                    <Link
-                      href={`/admin/products/${p.id}/edit`}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
+                  <td className="p-3 text-right flex items-center justify-end gap-4">
+                    <Link href={`/admin/products/${p.id}/edit`} className="text-[#4A3728] hover:text-[#8B6F47]">
                       <Pencil size={20} />
                     </Link>
-
                     <button
                       onClick={() => handleDeleteProduct(p.id)}
                       className="text-red-600 hover:text-red-800"
@@ -143,38 +146,35 @@ export default function AdminDashboard() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         )}
-      </div>
+      </Section> */}
 
-      {/* Recent Subcategories Table */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <h2 className="text-xl font-bold mb-4">Recent Subcategories</h2>
-
-        {totalSubCategories === 0 ? (
-          <p className="text-gray-500">No subcategories available.</p>
+      {/* Subcategories */}
+      {/* <Section title="Recent Subcategories">
+        {subcategories.length === 0 ? (
+          <Empty />
         ) : (
-          <table className="w-full border-collapse text-left">
+          <Table>
             <thead>
-              <tr className="border-b text-gray-600">
-                <th className="p-3">Subcategory</th>
+              <tr className="border-b border-[#EBD8C7] text-[#6B5847]">
+                <th className="p-3">Name</th>
                 <th className="p-3">Slug</th>
+                <th className="p-3">Category</th>
                 <th className="p-3 text-right">Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {subcategories.slice(0, 5).map((s) => (
-                <tr key={s.id} className="border-b hover:bg-gray-50 transition">
+                <tr key={s.id} className="border-b border-[#EBD8C7] hover:bg-[#FFF3E5] transition">
 
-                  <td className="p-3 font-medium">{s.name}</td>
-                  <td className="p-3 text-gray-600">{s.slug}</td>
+                  <td className="p-3 text-[#4A3728]">{s.name}</td>
+                  <td className="p-3 text-[#8B7A6A]">{s.slug}</td>
+                  <td className="p-3 text-sm text-[#8B7A6A]">{s.categoryId}</td>
 
-                  <td className="p-3 text-right flex items-center gap-4 justify-end">
-                    <Link
-                      href={`/admin/subcategories/${s.id}`}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
+                  <td className="p-3 flex items-center justify-end gap-4">
+                    <Link href={`/admin/subcategories/${s.id}`} className="text-[#4A3728] hover:text-[#8B6F47]">
                       <Pencil size={20} />
                     </Link>
 
@@ -189,9 +189,38 @@ export default function AdminDashboard() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         )}
-      </div>
+      </Section> */}
+
     </div>
   );
+}
+
+/* -------------------- COMPONENTS -------------------- */
+
+function Card({ title, count, color }: any) {
+  return (
+    <div className="bg-[#FFF9F1] p-6 rounded-xl shadow border border-[#EBD8C7]">
+      <h2 className="text-lg font-semibold text-[#6B5847]">{title}</h2>
+      <p className="text-4xl font-bold mt-3" style={{ color }}>{count}</p>
+    </div>
+  );
+}
+
+function Section({ title, children }: any) {
+  return (
+    <div className="bg-[#FFF9F1] p-6 rounded-xl shadow border border-[#EBD8C7]">
+      <h2 className="text-xl font-bold text-[#4A3728] mb-4">{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+function Table({ children }: any) {
+  return <table className="w-full border-collapse text-left">{children}</table>;
+}
+
+function Empty() {
+  return <p className="text-[#8B7A6A]">No data found.</p>;
 }

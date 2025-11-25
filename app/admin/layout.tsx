@@ -8,34 +8,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen flex bg-[#FFFBF2]">
 
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
         <AdminSidebar />
       </div>
 
-      {/* Mobile Sidebar Drawer */}
+      {/* Mobile Overlay */}
       {open && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
+      {/* Mobile Sidebar Drawer */}
       <div
-        className={`fixed z-50 top-0 left-0 h-full w-72 bg-white shadow transition-transform md:hidden
-          ${open ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed z-50 top-0 left-0 h-full w-72 
+                    bg-[#FFF9F1] border-r border-[#EBD8C7] shadow-lg
+                    transition-transform md:hidden 
+                    ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
         <AdminSidebar />
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      {/* Main Section */}
+      <div className="flex-1 flex flex-col min-h-screen border-l md:border-none border-[#EBD8C7]">
+
+        {/* Navbar */}
         <AdminNavbar onMenuClick={() => setOpen(true)} />
 
-        {/* Page Content */}
-        <main className="p-6 flex-1">{children}</main>
+        {/* Content */}
+        <main className="p-6 flex-1 bg-[#FFFBF2] text-[#4A3728]">
+          {children}
+        </main>
+
       </div>
     </div>
   );

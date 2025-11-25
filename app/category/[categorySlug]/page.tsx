@@ -39,12 +39,12 @@ export default function CategoryPage({ params }: Props) {
   );
 
   return (
-    <main className="min-h-screen bg-[#FFE5F0] py-10">
+    <main className="min-h-screen bg-[#FFFBF2] py-10">
       <div className="container mx-auto px-4">
 
         {/* TITLE */}
-        <h1 className="text-4xl font-bold text-[#1A1A1A] mb-6">
-         {"Gifts"} {category.name}
+        <h1 className="text-4xl font-bold text-[#4A3728] mb-6">
+          {"Gifts"} {category.name}
         </h1>
 
         {/* SEARCH BAR */}
@@ -54,18 +54,18 @@ export default function CategoryPage({ params }: Props) {
             placeholder="Search gifts"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white py-3 pl-4 pr-10 rounded-xl shadow-sm 
-                       border border-[#F5DCE5] text-gray-800"
+            className="w-full bg-[#FFF9F1] py-3 pl-4 pr-10 rounded-xl shadow-sm 
+                       border border-[#EBD8C7] text-[#4A3728] placeholder-[#8B7A6A]"
           />
-          <Search className="absolute right-3 top-3.5 w-5 h-5 text-gray-500" />
+          <Search className="absolute right-3 top-3.5 w-5 h-5 text-[#8B7A6A]" />
         </div>
 
         {/* BUDGET BANNER */}
-        <div className="bg-[#F8D7E8] p-6 rounded-2xl flex justify-between items-center mb-10">
+        <div className="bg-[#FFF3E5] p-6 rounded-2xl flex justify-between items-center mb-10 border border-[#F5DCC7]">
           <div>
-            <h2 className="text-xl font-bold text-[#4A3728]">Budget friendly gifts</h2>
-            <p className="text-sm text-[#6B5568]">
-              Make her smile without breaking the bank
+            <h2 className="text-xl font-bold text-[#4A3728]">Budget-friendly gifts</h2>
+            <p className="text-sm text-[#8B7A6A]">
+              Choose thoughtful gifts without overspending
             </p>
           </div>
           <div className="text-5xl">🎁</div>
@@ -78,7 +78,7 @@ export default function CategoryPage({ params }: Props) {
               <a
                 key={sub.id}
                 href={`/category/${category.slug}/${sub.slug}`}
-                className="p-4 bg-white rounded-xl shadow border border-[#F5DCE5]
+                className="p-4 bg-[#FFF9F1] rounded-xl shadow border border-[#EBD8C7]
                            text-center hover:shadow-md transition"
               >
                 <p className="font-semibold text-[#4A3728]">{sub.name}</p>
@@ -88,18 +88,19 @@ export default function CategoryPage({ params }: Props) {
         )}
 
         {/* PRODUCT LIST */}
-        {filteredProducts.length === 0 ? (
-          <p className="text-[#8B7A6A]">No products available.</p>
-        ) : (
+       {filteredProducts.length === 0 ? (
+  <p className="text-[#8B7A6A]">No products available.</p>
+) : (
+
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredProducts.map((p) => (
               <div
                 key={p.id}
-                className="bg-white rounded-2xl shadow p-4 border border-[#F5DCE5] 
+                className="bg-[#FFF9F1] rounded-2xl shadow p-4 border border-[#EBD8C7] 
                            hover:shadow-lg transition flex flex-col"
               >
                 {/* Image */}
-                <div className="relative h-40 w-full rounded-xl overflow-hidden bg-[#F7E6DE]">
+                <div className="relative h-40 w-full rounded-xl overflow-hidden bg-[#FFF3E5] border border-[#F5DCC7]">
                   <Image
                     src={p.imageUrl || "/placeholder.png"}
                     fill
@@ -109,17 +110,17 @@ export default function CategoryPage({ params }: Props) {
                 </div>
 
                 {/* Title */}
-                <h2 className="text-lg font-bold text-[#1A1A1A] mt-4">{p.title}</h2>
+                <h2 className="text-lg font-bold text-[#4A3728] mt-4">{p.title}</h2>
 
                 {/* Price */}
-                <p className="text-[#1A1A1A] font-semibold text-lg mt-1">
+                <p className="text-[#4A3728] font-semibold text-lg mt-1">
                   ₹{p.price}
                 </p>
 
                 {/* Button */}
                 <button
                   onClick={() => setSelectedProduct(p)}
-                  className="mt-3 bg-[#FFC9D6] hover:bg-[#F4B4C1] text-black py-2 
+                  className="mt-3 bg-[#EEC2B3] hover:bg-[#D4A896] text-[#4A3728] py-2 
                              rounded-xl font-semibold transition"
                 >
                   Buy Now

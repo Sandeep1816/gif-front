@@ -53,8 +53,8 @@ export default function ProductDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
           {/* LEFT - PRODUCT IMAGE */}
-          <div className="bg-[#FFF3E5] border border-[#F5DCC7] rounded-2xl p-4 shadow-sm">
-            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-[#F8EBDD]">
+          <div className="bg-[#FFF9F1] border border-[#EBD8C7] rounded-2xl p-4 shadow-sm">
+            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-[#FFF3E5] border border-[#F5DCC7]">
               <Image
                 src={product.imageUrl || "/placeholder.png"}
                 alt={product.title}
@@ -70,7 +70,7 @@ export default function ProductDetailPage({ params }: Props) {
               {product.title}
             </h1>
 
-            <p className="text-[#8B7A6A] mb-6 leading-relaxed">
+            <p className="text-[#6B5847] mb-6 leading-relaxed">
               {product.description}
             </p>
 
@@ -80,7 +80,7 @@ export default function ProductDetailPage({ params }: Props) {
 
             <button
               onClick={() => setOpen(true)}
-              className="bg-[#F6D4BD] hover:bg-[#E8C5AC] text-[#4A3728] font-semibold 
+              className="bg-[#EEC2B3] hover:bg-[#D4A896] text-[#4A3728] font-semibold
                          px-6 py-3 rounded-lg text-lg transition shadow-sm w-fit"
             >
               Buy Now
