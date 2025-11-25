@@ -49,9 +49,10 @@
 //       </div>
 //     </section>
 //   );
-// }
+// }  
 
 
+//based on cat from backend it will display
 "use client";
 
 import { useRouter } from "next/navigation";
