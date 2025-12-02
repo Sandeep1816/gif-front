@@ -47,14 +47,14 @@ export default function ProductDetailPage({ params }: Props) {
   if (!product) return <p>Product not found</p>;
 
   return (
-    <main className="min-h-screen bg-[#FFFBF2] py-10">
+    <main className="min-h-screen bg-[#FFF9F5] py-10">
       <div className="container mx-auto px-4">
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
           {/* LEFT - PRODUCT IMAGE */}
-          <div className="bg-[#FFF9F1] border border-[#EBD8C7] rounded-2xl p-4 shadow-sm">
-            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-[#FFF3E5] border border-[#F5DCC7]">
+          <div className="bg-white border border-[#E8C7C7] rounded-2xl p-4 shadow-sm">
+            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-[#F7DDE2] border border-[#E8C7C7]">
               <Image
                 src={product.imageUrl || "/placeholder.png"}
                 alt={product.title}
@@ -66,22 +66,24 @@ export default function ProductDetailPage({ params }: Props) {
 
           {/* RIGHT - DETAILS */}
           <div className="flex flex-col justify-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#4A3728] mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#8A1538] mb-4">
               {product.title}
             </h1>
 
-            <p className="text-[#6B5847] mb-6 leading-relaxed">
+            <p className="text-[#3A2F2F]/80 mb-6 leading-relaxed">
               {product.description}
             </p>
 
-            <p className="text-4xl font-bold text-[#8B6F47] mb-8">
+            <p className="text-4xl font-bold text-[#8A1538] mb-8">
               ₹{product.price}
             </p>
 
             <button
               onClick={() => setOpen(true)}
-              className="bg-[#EEC2B3] hover:bg-[#D4A896] text-[#4A3728] font-semibold
-                         px-6 py-3 rounded-lg text-lg transition shadow-sm w-fit"
+              className="
+                bg-[#8A1538] hover:bg-[#72102D] text-white font-semibold
+                px-6 py-3 rounded-lg text-lg transition shadow-md w-fit
+              "
             >
               Buy Now
             </button>

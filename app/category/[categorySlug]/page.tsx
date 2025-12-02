@@ -39,12 +39,12 @@ export default function CategoryPage({ params }: Props) {
   );
 
   return (
-    <main className="min-h-screen bg-[#FFFBF2] py-10">
+    <main className="min-h-screen bg-[#FFF9F5] py-10">
       <div className="container mx-auto px-4">
 
-        {/* TITLE */}
-        <h1 className="text-4xl font-bold text-[#4A3728] mb-6">
-          {"Gifts"} {category.name}
+        {/* PAGE TITLE */}
+        <h1 className="text-4xl font-bold text-[#8A1538] mb-6">
+          Gifts {category.name}
         </h1>
 
         {/* SEARCH BAR */}
@@ -54,17 +54,25 @@ export default function CategoryPage({ params }: Props) {
             placeholder="Search gifts"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#FFF9F1] py-3 pl-4 pr-10 rounded-xl shadow-sm 
-                       border border-[#EBD8C7] text-[#4A3728] placeholder-[#8B7A6A]"
+            className="
+              w-full bg-white py-3 pl-4 pr-10 rounded-xl shadow-sm 
+              border border-[#E8C7C7] text-[#3A2F2F] placeholder-[#8A1538]/40
+              focus:outline-none focus:ring-2 focus:ring-[#D4A5A5]
+            "
           />
-          <Search className="absolute right-3 top-3.5 w-5 h-5 text-[#8B7A6A]" />
+          <Search className="absolute right-3 top-3.5 w-5 h-5 text-[#8A1538]/70" />
         </div>
 
-        {/* BUDGET BANNER */}
-        <div className="bg-[#FFF3E5] p-6 rounded-2xl flex justify-between items-center mb-10 border border-[#F5DCC7]">
+        {/* BUDGET FRIENDLY BANNER */}
+        <div className="
+          bg-[#F7DDE2] p-6 rounded-2xl flex justify-between items-center mb-10 
+          border border-[#E8C7C7] shadow-sm
+        ">
           <div>
-            <h2 className="text-xl font-bold text-[#4A3728]">Budget-friendly gifts</h2>
-            <p className="text-sm text-[#8B7A6A]">
+            <h2 className="text-xl font-bold text-[#8A1538]">
+              Budget-friendly gifts
+            </h2>
+            <p className="text-sm text-[#3A2F2F]/70">
               Choose thoughtful gifts without overspending
             </p>
           </div>
@@ -78,29 +86,36 @@ export default function CategoryPage({ params }: Props) {
               <a
                 key={sub.id}
                 href={`/category/${category.slug}/${sub.slug}`}
-                className="p-4 bg-[#FFF9F1] rounded-xl shadow border border-[#EBD8C7]
-                           text-center hover:shadow-md transition"
+                className="
+                  p-4 bg-white rounded-xl shadow border border-[#E8C7C7]
+                  text-center hover:shadow-md hover:bg-[#FFF3F7] 
+                  hover:border-[#D4A5A5] transition
+                "
               >
-                <p className="font-semibold text-[#4A3728]">{sub.name}</p>
+                <p className="font-semibold text-[#8A1538]">{sub.name}</p>
               </a>
             ))}
           </div>
         )}
 
         {/* PRODUCT LIST */}
-       {filteredProducts.length === 0 ? (
-  <p className="text-[#8B7A6A]">No products available.</p>
-) : (
-
+        {filteredProducts.length === 0 ? (
+          <p className="text-[#8A1538]/70">No products available.</p>
+        ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredProducts.map((p) => (
               <div
                 key={p.id}
-                className="bg-[#FFF9F1] rounded-2xl shadow p-4 border border-[#EBD8C7] 
-                           hover:shadow-lg transition flex flex-col"
+                className="
+                  bg-white rounded-2xl shadow p-4 border border-[#E8C7C7] 
+                  hover:shadow-lg transition flex flex-col
+                "
               >
                 {/* Image */}
-                <div className="relative h-40 w-full rounded-xl overflow-hidden bg-[#FFF3E5] border border-[#F5DCC7]">
+                <div className="
+                  relative h-40 w-full rounded-xl overflow-hidden bg-[#F7DDE2]
+                  border border-[#E8C7C7]
+                ">
                   <Image
                     src={p.imageUrl || "/placeholder.png"}
                     fill
@@ -110,18 +125,22 @@ export default function CategoryPage({ params }: Props) {
                 </div>
 
                 {/* Title */}
-                <h2 className="text-lg font-bold text-[#4A3728] mt-4">{p.title}</h2>
+                <h2 className="text-lg font-bold text-[#8A1538] mt-4">
+                  {p.title}
+                </h2>
 
                 {/* Price */}
-                <p className="text-[#4A3728] font-semibold text-lg mt-1">
+                <p className="text-[#3A2F2F] font-semibold text-lg mt-1">
                   ₹{p.price}
                 </p>
 
                 {/* Button */}
                 <button
                   onClick={() => setSelectedProduct(p)}
-                  className="mt-3 bg-[#EEC2B3] hover:bg-[#D4A896] text-[#4A3728] py-2 
-                             rounded-xl font-semibold transition"
+                  className="
+                    mt-3 bg-[#8A1538] hover:bg-[#72102D] text-white py-2 
+                    rounded-xl font-semibold transition shadow-sm
+                  "
                 >
                   Buy Now
                 </button>

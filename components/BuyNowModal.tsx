@@ -51,9 +51,10 @@ export default function BuyNowModal({ product, onClose }: any) {
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
 
       {/* MODAL CARD */}
-      <div className="bg-[#FFF3E5] w-full max-w-lg rounded-2xl shadow-xl border border-[#F5DCC7] p-6">
+      <div className="bg-[#F7DDE2] w-full max-w-lg rounded-2xl shadow-xl 
+                      border border-[#E8C7C7] p-6">
 
-        <h2 className="text-2xl font-bold text-[#4A3728] mb-4">
+        <h2 className="text-2xl font-bold text-[#8A1538] mb-4">
           Buy: {product.title}
         </h2>
 
@@ -62,41 +63,49 @@ export default function BuyNowModal({ product, onClose }: any) {
 
             {/* Name */}
             <div>
-              <label className="font-medium text-[#4A3728]">Name</label>
+              <label className="font-medium text-[#8A1538]">Name</label>
               <Field
                 name="name"
-                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+                className="w-full p-3 mt-1 bg-[#FFF9F5] border border-[#E8C7C7] 
+                           rounded-lg text-[#3A2F2F] focus:outline-none 
+                           focus:ring-2 focus:ring-[#D4A5A5]"
               />
               <ErrorMessage name="name" component="p" className="text-red-500 text-sm" />
             </div>
 
             {/* Email */}
             <div>
-              <label className="font-medium text-[#4A3728]">Email</label>
+              <label className="font-medium text-[#8A1538]">Email</label>
               <Field
                 name="email"
-                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+                className="w-full p-3 mt-1 bg-[#FFF9F5] border border-[#E8C7C7] 
+                           rounded-lg text-[#3A2F2F] focus:outline-none 
+                           focus:ring-2 focus:ring-[#D4A5A5]"
               />
               <ErrorMessage name="email" component="p" className="text-red-500 text-sm" />
             </div>
 
             {/* Phone */}
             <div>
-              <label className="font-medium text-[#4A3728]">Phone</label>
+              <label className="font-medium text-[#8A1538]">Phone</label>
               <Field
                 name="phone"
-                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg text-[#4A3728] focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+                className="w-full p-3 mt-1 bg-[#FFF9F5] border border-[#E8C7C7] 
+                           rounded-lg text-[#3A2F2F] focus:outline-none 
+                           focus:ring-2 focus:ring-[#D4A5A5]"
               />
               <ErrorMessage name="phone" component="p" className="text-red-500 text-sm" />
             </div>
 
             {/* Message */}
             <div>
-              <label className="font-medium text-[#4A3728]">Message</label>
+              <label className="font-medium text-[#8A1538]">Message</label>
               <Field
                 as="textarea"
                 name="message"
-                className="w-full p-3 mt-1 bg-[#FFF9F1] border border-[#EBD8C7] rounded-lg h-28 text-[#4A3728] resize-none focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]"
+                className="w-full p-3 mt-1 bg-[#FFF9F5] border border-[#E8C7C7] 
+                           rounded-lg h-28 text-[#3A2F2F] resize-none 
+                           focus:outline-none focus:ring-2 focus:ring-[#D4A5A5]"
               />
               <ErrorMessage name="message" component="p" className="text-red-500 text-sm" />
             </div>
@@ -104,7 +113,8 @@ export default function BuyNowModal({ product, onClose }: any) {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-3 rounded-lg bg-[#F6D4BD] text-[#4A3728] font-semibold hover:bg-[#E8C5AC] transition shadow-sm"
+              className="w-full py-3 rounded-lg bg-[#8A1538] text-white 
+                         font-semibold hover:bg-[#72102D] transition shadow-md"
             >
               Submit Order
             </button>
@@ -113,7 +123,9 @@ export default function BuyNowModal({ product, onClose }: any) {
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-3 bg-[#F0E6DD] rounded-lg text-[#4A3728] hover:bg-[#E6D9CF] transition mt-2"
+              className="w-full py-3 bg-[#FFF9F5] rounded-lg text-[#8A1538] 
+                         border border-[#E8C7C7] font-medium hover:bg-[#F3E3E8] 
+                         transition mt-2"
             >
               Cancel
             </button>

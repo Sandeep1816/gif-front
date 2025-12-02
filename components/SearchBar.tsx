@@ -12,7 +12,6 @@ export default function SearchBar() {
   const [results, setResults] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Debounce search
   useEffect(() => {
     const delay = setTimeout(() => {
       if (query.trim() === "") {
@@ -25,7 +24,7 @@ export default function SearchBar() {
       );
 
       setResults(filtered);
-    }, 200); // 200ms debounce
+    }, 200);
 
     return () => clearTimeout(delay);
   }, [query, products]);
@@ -41,22 +40,31 @@ export default function SearchBar() {
           setQuery(e.target.value);
           setShowDropdown(true);
         }}
-        className="w-full px-4 py-1.5 bg-[#FFF9F1] border border-[#EBD8C7] 
-                   rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F6D4BD]
-                   text-[#4A3728] placeholder:text-[#8B7A6A]"
+        className="
+          w-full px-4 py-2 bg-white border border-[#E8C7C7] rounded-xl
+          focus:outline-none focus:ring-2 focus:ring-[#D4A5A5]
+          text-[#3A2F2F] placeholder:text-[#8A1538]/40
+        "
       />
 
-      <Search className="absolute right-3 top-2 w-4 h-4 text-[#8B7A6A]" />
+      <Search className="absolute right-3 top-2.5 w-5 h-5 text-[#8A1538]/60" />
 
-      {/* Results Dropdown */}
+      {/* Dropdown Results */}
       {showDropdown && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#EBD8C7] 
-                        rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto">
+        <div
+          className="
+            absolute top-full left-0 right-0 mt-2 bg-white border border-[#E8C7C7]
+            rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto
+          "
+        >
           {results.map((p) => (
             <a
               key={p.id}
               href={`/category/${p.categorySlug}/${p.subCategorySlug}/${p.slug}`}
-              className="block px-4 py-2 hover:bg-[#FFF3E5] text-[#4A3728] border-b border-[#F5DCC7]"
+              className="
+                block px-4 py-2 hover:bg-[#F7DDE2] text-[#3A2F2F]
+                border-b border-[#E8C7C7] last:border-none transition
+              "
               onClick={() => setShowDropdown(false)}
             >
               {p.title}
@@ -65,10 +73,14 @@ export default function SearchBar() {
         </div>
       )}
 
-      {/* No results */}
+      {/* No Results */}
       {showDropdown && query !== "" && results.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#EBD8C7] 
-                        rounded-xl shadow-lg z-50 p-4 text-center text-[#8B7A6A]">
+        <div
+          className="
+            absolute top-full left-0 right-0 mt-2 bg-white border border-[#E8C7C7]
+            rounded-xl shadow-lg z-50 p-4 text-center text-[#8A1538]/70
+          "
+        >
           No matches found
         </div>
       )}

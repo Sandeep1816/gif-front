@@ -2,23 +2,25 @@
 
 export default function PrivacyPolicy() {
   return (
-    <main className="bg-[#FFFBF2] min-h-screen py-12 px-6 md:px-20 text-[#4A3728]">
+    <main className="bg-[#FFF9F5] min-h-screen py-12 px-6 md:px-20 text-[#3A2F2F]">
       
       <section className="max-w-4xl mx-auto space-y-8">
         
-        <h1 className="text-4xl font-bold text-center">Privacy Policy</h1>
+        <h1 className="text-4xl font-bold text-center text-[#8A1538]">
+          Privacy Policy
+        </h1>
 
         <PolicyBlock title="1. Information We Collect">
-          <p>We may collect personal details like name, email, address, order info, etc.</p>
+          <p>We may collect personal details like name, email, address, order information, etc.</p>
           <p>We do NOT store payment information. All payments are handled by secure gateways.</p>
         </PolicyBlock>
 
         <PolicyBlock title="2. How We Use Your Information">
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside space-y-1">
             <li>Process and deliver orders</li>
-            <li>Send updates</li>
+            <li>Send order & service notifications</li>
             <li>Improve user experience</li>
-            <li>Prevent fraud</li>
+            <li>Prevent fraudulent activities</li>
           </ul>
         </PolicyBlock>
 
@@ -27,7 +29,7 @@ export default function PrivacyPolicy() {
         </PolicyBlock>
 
         <PolicyBlock title="4. Cookies">
-          <p>We use cookies to improve browsing and performance.</p>
+          <p>We use cookies to enhance browsing and website performance.</p>
         </PolicyBlock>
 
         <PolicyBlock title="5. Data Retention">
@@ -35,8 +37,8 @@ export default function PrivacyPolicy() {
         </PolicyBlock>
 
         <PolicyBlock title="6. Your Rights">
-          <ul className="list-disc list-inside">
-            <li>Request your data</li>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Request access to your data</li>
             <li>Request corrections</li>
             <li>Request deletion</li>
             <li>Opt-out anytime</li>
@@ -44,7 +46,7 @@ export default function PrivacyPolicy() {
         </PolicyBlock>
 
         <PolicyBlock title="Contact">
-          <p>Email: giftsdestiny51@gmail.com</p>
+          <p>Email: <span className="text-[#8A1538] font-medium">giftsdestiny51@gmail.com</span></p>
         </PolicyBlock>
 
       </section>
@@ -54,9 +56,9 @@ export default function PrivacyPolicy() {
 
 function PolicyBlock({ title, children }: any) {
   return (
-    <div className="bg-[#FFF3E5] border border-[#F5DCC7] rounded-xl p-6 shadow-sm space-y-2">
-      <h2 className="text-xl font-semibold">{title}</h2>
-      <div className="text-[#6B5847] space-y-2">{children}</div>
+    <div className="bg-[#F7DDE2] border border-[#E8C7C7] rounded-xl p-6 shadow-sm space-y-2">
+      <h2 className="text-xl font-semibold text-[#8A1538]">{title}</h2>
+      <div className="text-[#3A2F2F] space-y-2">{children}</div>
     </div>
   );
 }

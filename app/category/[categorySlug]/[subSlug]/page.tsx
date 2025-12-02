@@ -38,11 +38,11 @@ export default function SubCategoryPage({ params }: Props) {
   );
 
   return (
-    <main className="min-h-screen bg-[#FFFBF2] py-10">
+    <main className="min-h-screen bg-[#FFF9F5] py-10">
       <div className="container mx-auto px-4">
 
         {/* Heading */}
-        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-[#4A3728]">
+        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-[#8A1538]">
           {category.name} → {subcategory.name}
         </h1>
 
@@ -51,12 +51,18 @@ export default function SubCategoryPage({ params }: Props) {
           {filteredProducts.map((p) => (
             <div
               key={p.id}
-              className="bg-[#FFF9F1] border border-[#EBD8C7] p-4 rounded-2xl 
-                         shadow-sm hover:shadow-md transition flex flex-col"
+              className="
+                bg-white border border-[#E8C7C7] p-4 rounded-2xl 
+                shadow-sm hover:shadow-lg transition flex flex-col
+              "
             >
               {/* Image */}
-              <div className="relative h-48 w-full rounded-xl overflow-hidden 
-                              bg-[#FFF3E5] border border-[#F5DCC7]">
+              <div
+                className="
+                  relative h-48 w-full rounded-xl overflow-hidden 
+                  bg-[#F7DDE2] border border-[#E8C7C7]
+                "
+              >
                 <Image
                   src={p.imageUrl || "/placeholder.png"}
                   alt={p.title}
@@ -66,13 +72,13 @@ export default function SubCategoryPage({ params }: Props) {
               </div>
 
               {/* Title */}
-              <h2 className="text-lg font-bold text-[#4A3728] mt-4">
+              <h2 className="text-lg font-bold text-[#8A1538] mt-4">
                 {p.title}
               </h2>
 
               {/* Price */}
               {p.price && (
-                <p className="text-[#6B5847] font-semibold mt-1">
+                <p className="text-[#3A2F2F] font-semibold mt-1">
                   ₹{p.price}
                 </p>
               )}
@@ -80,8 +86,10 @@ export default function SubCategoryPage({ params }: Props) {
               {/* Buy Now Button */}
               <button
                 onClick={() => setSelectedProduct(p)}
-                className="mt-4 bg-[#EEC2B3] hover:bg-[#D4A896] 
-                           text-[#4A3728] font-semibold py-2 rounded-lg transition"
+                className="
+                  mt-4 bg-[#8A1538] hover:bg-[#72102D] 
+                  text-white font-semibold py-2 rounded-lg transition shadow-sm
+                "
               >
                 Buy Now
               </button>

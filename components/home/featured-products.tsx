@@ -16,11 +16,11 @@ export default function FeaturedProducts() {
     data?.products?.filter((p) => p.isFavourite === true) ?? [];
 
   return (
-    <section className="bg-[#FFFBF2] py-12 md:py-16">
+    <section className="bg-[#FFF9F5] py-12 md:py-16">
       <div className="container mx-auto px-4">
 
         {/* Section Title */}
-        <h2 className="text-3xl md:text-4xl font-bold text-[#4A3728] mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#8A1538] mb-10">
           Trending Gifts
         </h2>
 
@@ -35,12 +35,12 @@ export default function FeaturedProducts() {
           {featuredProducts.map((product) => (
             <div
               key={product.id}
-              className="rounded-2xl overflow-hidden bg-[#FFF3E5] 
-                         border border-[#F5DCC7] shadow-sm 
-                         hover:shadow-md transition flex flex-col"
+              className="rounded-2xl overflow-hidden bg-[#F7DDE2] 
+                         border border-[#E8C7C7] shadow-sm 
+                         hover:shadow-lg transition flex flex-col"
             >
               {/* IMAGE */}
-              <div className="relative h-56 bg-[#FFEFE0]">
+              <div className="relative h-56 bg-[#FCEFF2]">
                 <Image
                   src={product.imageUrl || "/placeholder.svg"}
                   alt={product.title}
@@ -51,23 +51,23 @@ export default function FeaturedProducts() {
 
               {/* CONTENT */}
               <div className="p-5 flex flex-col flex-grow">
-                <h3 className="font-semibold text-[#4A3728] text-sm mb-2 leading-tight">
+                <h3 className="font-semibold text-[#8A1538] text-sm mb-2 leading-tight">
                   {product.title}
                 </h3>
 
-                <p className="text-base font-semibold text-[#8B6F47] mb-4">
+                <p className="text-base font-semibold text-[#3A2F2F] mb-4">
                   ₹{product.price}
                 </p>
 
                 {/* Button */}
                 <button
                   onClick={() => setSelectedProduct(product)}
-                  className="bg-[#F6D4BD] hover:bg-[#E8C5AC] 
-                             text-[#4A3728] font-medium 
-                             py-2 rounded-md text-sm shadow-sm 
+                  className="bg-[#8A1538] hover:bg-[#72102D] 
+                             text-white font-medium 
+                             py-2 rounded-md text-sm shadow-md 
                              transition"
                 >
-                  Add to cart
+                  Add to Cart
                 </button>
               </div>
             </div>

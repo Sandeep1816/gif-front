@@ -9,19 +9,19 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FFFBF2] border-b border-[#F5DCC7] shadow-sm">
+    <header className="sticky top-0 z-50 bg-[#FFF9F5] border-b border-[#E8C7C7] shadow-sm">
 
       {/* Top Bar */}
       <div className="hidden md:flex justify-between items-center px-6 py-1.5 
-                      bg-[#FFF3E5] text-sm border-b border-[#F5DCC7]">
-        <div className="flex items-center gap-2 text-[#8B7A6A]">
-          <MapPin className="w-4 h-4 text-[#4A3728]" />
+                      bg-[#F7DDE2] text-sm border-b border-[#E8C7C7]">
+        <div className="flex items-center gap-2 text-[#3A2F2F]">
+          <MapPin className="w-4 h-4 text-[#8A1538]" />
           <span>Where to deliver?</span>
         </div>
 
-        <div className="flex gap-6 text-[#8B7A6A]">
-          <a href="#" className="hover:text-[#4A3728] transition">Help & FAQ</a>
-          <a href="#" className="hover:text-[#4A3728] transition">Contact Us</a>
+        <div className="flex gap-6 text-[#3A2F2F]">
+          <a href="#" className="hover:text-[#8A1538] transition">Help & FAQ</a>
+          <a href="#" className="hover:text-[#8A1538] transition">Contact Us</a>
         </div>
       </div>
 
@@ -47,24 +47,24 @@ export default function Header() {
 
           {/* Icons */}
           <div className="flex items-center gap-3">
-            <button className="hidden md:flex items-center gap-1 text-[#4A3728] hover:text-[#8B6F47] transition text-sm">
+            <button className="hidden md:flex items-center gap-1 text-[#8A1538] hover:text-[#3A2F2F] transition text-sm">
               <Heart className="w-4 h-4" />
               Wishlist
             </button>
 
-            <button className="hidden md:flex items-center gap-1 text-[#4A3728] hover:text-[#8B6F47] transition text-sm">
+            <button className="hidden md:flex items-center gap-1 text-[#8A1538] hover:text-[#3A2F2F] transition text-sm">
               <ShoppingCart className="w-4 h-4" />
               Cart
             </button>
 
-            <button className="hidden md:flex items-center gap-1 text-[#4A3728] hover:text-[#8B6F47] transition text-sm">
+            <button className="hidden md:flex items-center gap-1 text-[#8A1538] hover:text-[#3A2F2F] transition text-sm">
               <User className="w-4 h-4" />
               Account
             </button>
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden text-[#4A3728]"
+              className="md:hidden text-[#8A1538]"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -79,16 +79,16 @@ export default function Header() {
 
         {/* Mobile Dropdown Menu */}
         {mobileOpen && (
-          <div className="md:hidden mt-3 pb-3 space-y-2 border-t border-[#F5DCC7] pt-3">
-            <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
+          <div className="md:hidden mt-3 pb-3 space-y-2 border-t border-[#E8C7C7] pt-3">
+            <button className="w-full text-left px-4 py-2 hover:bg-[#F7DDE2] rounded text-[#8A1538] transition">
               Wishlist
             </button>
 
-            <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
+            <button className="w-full text-left px-4 py-2 hover:bg-[#F7DDE2] rounded text-[#8A1538] transition">
               Cart
             </button>
 
-            <button className="w-full text-left px-4 py-2 hover:bg-[#FFF3E5] rounded text-[#4A3728] transition">
+            <button className="w-full text-left px-4 py-2 hover:bg-[#F7DDE2] rounded text-[#8A1538] transition">
               Account
             </button>
           </div>

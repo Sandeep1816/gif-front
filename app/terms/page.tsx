@@ -2,22 +2,24 @@
 
 export default function TermsPage() {
   return (
-    <main className="bg-[#FFFBF2] min-h-screen py-12 px-6 md:px-20 text-[#4A3728]">
+    <main className="bg-[#FFF9F5] min-h-screen py-12 px-6 md:px-20">
       
       <section className="max-w-4xl mx-auto space-y-8">
         
-        <h1 className="text-4xl font-bold text-center">Terms & Conditions</h1>
+        <h1 className="text-4xl font-bold text-center text-[#8A1538]">
+          Terms & Conditions
+        </h1>
 
         <PolicyCard title="1. General Information">
           <p>By using our website, you agree to these terms.</p>
         </PolicyCard>
 
         <PolicyCard title="2. Products & Services">
-          <p>Handcrafted items may slightly vary from images shown.</p>
+          <p>Handcrafted items may slightly vary from the product images.</p>
         </PolicyCard>
 
         <PolicyCard title="3. Custom Orders">
-          <p>Custom products cannot be cancelled or returned unless defective.</p>
+          <p>Custom items cannot be cancelled or returned unless damaged or defective.</p>
         </PolicyCard>
 
         <PolicyCard title="4. Pricing">
@@ -33,16 +35,15 @@ export default function TermsPage() {
         </PolicyCard>
 
       </section>
-
     </main>
   );
 }
 
 function PolicyCard({ title, children }: any) {
   return (
-    <div className="bg-[#FFF9F1] border border-[#EBD8C7] rounded-xl p-6 shadow-sm space-y-2">
-      <h2 className="text-xl font-semibold">{title}</h2>
-      <div className="text-[#6B5847]">{children}</div>
+    <div className="bg-[#F7DDE2] border border-[#E8C7C7] rounded-xl p-6 shadow-sm space-y-2">
+      <h2 className="text-xl font-semibold text-[#8A1538]">{title}</h2>
+      <div className="text-[#3A2F2F]">{children}</div>
     </div>
   );
 }
