@@ -8,29 +8,44 @@ export default function StatsSection() {
   ]
 
   return (
-    <section className="bg-white py-12 md:py-16 border-t border-border">
+    <section className="bg-[#FFF9F5] py-12 md:py-16 border-t border-[#E8C7C7]">
       <div className="container mx-auto px-4">
+
         <div className="flex items-start gap-6 md:gap-12">
-          {/* Left side - Label */}
+          
+          {/* LEFT LABEL (vertical text) */}
           <div className="hidden md:flex flex-col items-center">
-            <h3 className="text-3xl font-black text-primary writing-vertical">Stats</h3>
-            <div className="w-1 h-20 bg-primary rounded mt-4"></div>
+            <h3
+              className="
+                text-3xl font-bold text-[#8A1538]
+                writing-vertical 
+              "
+            >
+              Stats
+            </h3>
+            <div className="w-1 h-20 bg-[#8A1538] rounded mt-4"></div>
           </div>
 
-          {/* Right side - Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 flex-1">
+          {/* RIGHT SIDE STATS GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 flex-1">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center md:text-left">
-                <div className="text-5xl md:text-6xl font-black text-accent mb-3">
+                
+                {/* Big Numbers */}
+                <div className="text-5xl md:text-6xl font-extrabold text-[#8A1538] mb-3">
                   {stat.number}
                 </div>
-                <p className="text-lg text-muted-foreground">
+
+                {/* Label */}
+                <p className="text-lg text-[#3A2F2F]/80 leading-snug">
                   {stat.label}
                 </p>
+
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </section>
   )

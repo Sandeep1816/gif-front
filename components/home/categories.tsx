@@ -37,7 +37,7 @@ export default function Categories() {
 
   return (
     <section className="bg-[#FFF9F5] py-4">
-      <div className="grid grid-cols-3 md:grid-cols-7 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4">
         {categories.map((cat) => {
           const Icon = iconMap[cat.slug] || Users;
 
@@ -50,6 +50,7 @@ export default function Categories() {
                 border border-[#E8C7C7] bg-white
                 hover:bg-[#F7DDE2] hover:border-[#D4A5A5]
                 transition-all duration-300 group shadow-sm hover:shadow-md
+                active:scale-95
               "
             >
               <Icon
@@ -60,7 +61,7 @@ export default function Categories() {
               />
 
               <span className="text-xs md:text-sm text-center font-medium text-[#3A2F2F] leading-snug">
-                {cat.name}
+                {cat.name || "Category"}
               </span>
             </button>
           );
