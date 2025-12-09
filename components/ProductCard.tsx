@@ -3,10 +3,12 @@ import Link from "next/link";
 
 export default function ProductCard({ product }: any) {
   return (
-    <Link href={`/products/${product.slug}`}>
+    <Link 
+      href={`/category/${product.categorySlug}/${product.subCategorySlug}/${product.slug}`}
+    >
       <div className="
         border border-[#E8C7C7] rounded-xl p-4 bg-white 
-        hover:shadow-lg transition shadow-sm
+        hover:shadow-lg transition shadow-sm cursor-pointer
       ">
         <Image
           src={product.imageUrl || "/placeholder.png"}

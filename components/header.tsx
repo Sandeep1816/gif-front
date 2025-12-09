@@ -30,7 +30,7 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4 mb-2">
 
           {/* Logo */}
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Image
               src="/logo.png"
               alt="Gifts Destiny Logo"
@@ -38,7 +38,14 @@ export default function Header() {
               height={26}
               className="object-contain"
             />
-          </div>
+          </div> */}
+
+          <div className="flex items-center">
+  <span className="text-2xl md:text-3xl font-bold tracking-wide text-[#8A1538]">
+    Gifts <span className="text-[#8A1538]">Destiny</span>
+  </span>
+</div>
+
 
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-md">

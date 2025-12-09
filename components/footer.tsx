@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Social section */}
         <div className="text-center mb-12">
           <h3 className="text-lg md:text-xl font-bold text-[#8A1538] mb-6">
-            Follow us on:
+            Connect With Us:
           </h3>
 
           <div className="flex justify-center gap-4 flex-wrap">

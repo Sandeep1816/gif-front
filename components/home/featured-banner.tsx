@@ -15,20 +15,20 @@ export default function FeaturedBanner() {
           {/* LEFT CONTENT */}
           <div className="flex flex-col gap-6 pr-4">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#8A1538] leading-tight">
-              Find the Perfect Gift for Every Moment
+              Make Every Moment Special
             </h1>
 
             {/* Buttons */}
             <div className="flex gap-4 flex-wrap mt-2">
               <button
-                onClick={() => router.push("/shop/occasions")}
+                onClick={() => router.push("/category/categories")}
                 className="bg-[#8A1538] hover:bg-[#72102D] text-white font-semibold py-3 px-6 rounded-md transition duration-200"
               >
                 Shop by Occasion
               </button>
 
               <button
-                onClick={() => router.push("/shop/all")}
+                onClick={() => router.push("/category/others")}
                 className="bg-[#F7DDE2] hover:bg-[#E8C7C7] text-[#8A1538] font-semibold py-3 px-6 rounded-md transition duration-200"
               >
                 Shop All Gifts
