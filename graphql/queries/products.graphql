@@ -4,12 +4,17 @@ query GetProducts {
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
 
@@ -19,12 +24,17 @@ query GetProduct($id: String!) {
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
 
@@ -34,11 +44,16 @@ query GetProductBySlug($slug: String!) {
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }

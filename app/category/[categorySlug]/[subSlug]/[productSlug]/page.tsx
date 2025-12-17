@@ -50,6 +50,12 @@ export default function ProductDetailPage({ params }: Props) {
   if (!product)
     return <p className="text-center py-20">Product not found</p>;
 
+  /* ✅ MAIN IMAGE */
+  const mainImage =
+    product.images.find((img) => img.isPrimary)?.url ||
+    product.images[0]?.url ||
+    "/placeholder.png";
+
   return (
     <main className="min-h-screen bg-[#FBFAFF] py-14">
       <div className="container mx-auto px-4">
@@ -60,7 +66,7 @@ export default function ProductDetailPage({ params }: Props) {
           <div className="bg-white border border-[#E3DBFF] rounded-3xl p-5 shadow-sm">
             <div className="relative w-full h-96 rounded-2xl overflow-hidden bg-[#EFEAFF]">
               <Image
-                src={product.imageUrl || "/placeholder.png"}
+                src={mainImage}
                 alt={product.title}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-300"

@@ -8,8 +8,13 @@ import {
   useGetSubCategoriesQuery,
 } from "@/generated/graphql";
 import { useRouter } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+
+type ImageInput = {
+  url: string;
+  isPrimary?: boolean;
+};
 
 export default function CreateProductPage() {
   const router = useRouter();
@@ -20,16 +25,18 @@ export default function CreateProductPage() {
   const { data: subsData } = useGetSubCategoriesQuery();
   const subcategories = subsData?.subcategories ?? [];
 
-  const [preview, setPreview] = useState<string | null>(null);
   const [createProduct, { loading }] = useCreateProductMutation();
 
-  // ---------- FORM FIRST ----------
+  /* ===============================
+        FORMIK
+  ================================ */
+
   const formik = useFormik({
     initialValues: {
       title: "",
       slug: "",
       description: "",
-      imageUrl: "",
+      images: [] as ImageInput[],
       price: "",
       stock: "",
       categoryId: "",
@@ -44,7 +51,9 @@ export default function CreateProductPage() {
       stock: Yup.number().min(0).required("Stock is required"),
       categoryId: Yup.string().required("Category is required"),
       subCategoryId: Yup.string().required("Subcategory is required"),
-      imageUrl: Yup.string().required("Image is required"),
+      images: Yup.array()
+        .min(1, "At least one image is required")
+        .required(),
     }),
 
     onSubmit: async (values) => {
@@ -55,12 +64,12 @@ export default function CreateProductPage() {
               title: values.title,
               slug: values.slug,
               description: values.description,
-              imageUrl: values.imageUrl,
               price: Number(values.price),
               stock: Number(values.stock),
               categoryId: values.categoryId,
               subCategoryId: values.subCategoryId,
               isFavourite: values.isFavourite,
+              images: values.images,
             },
           },
         });
@@ -73,7 +82,10 @@ export default function CreateProductPage() {
     },
   });
 
-  // ---------- NOW USE FORMIK SAFELY ----------
+  /* ===============================
+        FILTER SUBCATEGORIES
+  ================================ */
+
   const filteredSubcategories = useMemo(() => {
     if (!formik.values.categoryId) return [];
     return subcategories.filter(
@@ -81,16 +93,64 @@ export default function CreateProductPage() {
     );
   }, [subcategories, formik.values.categoryId]);
 
-  // ---------- IMAGE UPLOAD ----------
+  /* ===============================
+        IMAGE UPLOAD
+  ================================ */
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    setPreview(URL.createObjectURL(file));
+    const uploadedImages: ImageInput[] = [];
 
-    const upload = await uploadToCloudinary(file);
-    formik.setFieldValue("imageUrl", upload.secure_url);
+    for (let i = 0; i < files.length; i++) {
+      const upload = await uploadToCloudinary(files[i]);
+
+      uploadedImages.push({
+        url: upload.secure_url,
+        isPrimary:
+          formik.values.images.length === 0 && i === 0, // first ever image
+      });
+    }
+
+    formik.setFieldValue("images", [
+      ...formik.values.images,
+      ...uploadedImages,
+    ]);
   };
+
+  /* ===============================
+        SET PRIMARY IMAGE
+  ================================ */
+
+  const setPrimaryImage = (index: number) => {
+    const updated = formik.values.images.map((img, i) => ({
+      ...img,
+      isPrimary: i === index,
+    }));
+
+    formik.setFieldValue("images", updated);
+  };
+
+  /* ===============================
+        REMOVE IMAGE
+  ================================ */
+
+  const removeImage = (index: number) => {
+    let updated = [...formik.values.images];
+    const removed = updated.splice(index, 1);
+
+    // if primary removed → make first image primary
+    if (removed[0]?.isPrimary && updated.length > 0) {
+      updated[0].isPrimary = true;
+    }
+
+    formik.setFieldValue("images", updated);
+  };
+
+  /* ===============================
+        UI
+  ================================ */
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 border rounded-lg shadow bg-white">
@@ -144,20 +204,53 @@ export default function CreateProductPage() {
           />
         </div>
 
-        {/* Image Upload */}
+        {/* Images */}
         <div>
-          <label className="block font-medium">Product Image</label>
+          <label className="block font-medium">Product Images</label>
           <input
             type="file"
             accept="image/*"
+            multiple
             onChange={handleUpload}
             className="border p-2 w-full rounded"
           />
-          {preview && (
-            <img
-              src={preview}
-              className="mt-3 w-32 h-32 rounded object-cover border"
-            />
+
+          {formik.values.images.length > 0 && (
+            <div className="flex gap-3 mt-3 flex-wrap">
+              {formik.values.images.map((img, i) => (
+                <div
+                  key={i}
+                  className="relative cursor-pointer"
+                  onClick={() => setPrimaryImage(i)}
+                >
+                  <img
+                    src={img.url}
+                    className={`w-24 h-24 rounded object-cover border ${
+                      img.isPrimary
+                        ? "ring-2 ring-blue-600"
+                        : "hover:ring-2 hover:ring-gray-400"
+                    }`}
+                  />
+
+                  {img.isPrimary && (
+                    <span className="absolute top-1 left-1 bg-blue-600 text-white text-xs px-1 rounded">
+                      Primary
+                    </span>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeImage(i);
+                    }}
+                    className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 text-xs"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
@@ -182,7 +275,7 @@ export default function CreateProductPage() {
             value={formik.values.categoryId}
             onChange={(e) => {
               formik.handleChange(e);
-              formik.setFieldValue("subCategoryId", ""); // reset subcategory
+              formik.setFieldValue("subCategoryId", "");
             }}
           >
             <option value="">Select Category</option>
@@ -205,7 +298,6 @@ export default function CreateProductPage() {
             disabled={!formik.values.categoryId}
           >
             <option value="">Select Subcategory</option>
-
             {filteredSubcategories.map((sub) => (
               <option key={sub.id} value={sub.id}>
                 {sub.name}
@@ -222,7 +314,6 @@ export default function CreateProductPage() {
             name="isFavourite"
             checked={formik.values.isFavourite}
             onChange={formik.handleChange}
-            className="w-5 h-5"
           />
           <label htmlFor="isFavourite" className="font-medium">
             Mark as Favourite ⭐

@@ -16,36 +16,35 @@ type EditProductForm = {
   title: string;
   slug: string;
   description: string;
-  imageUrl: string;
   price: string;
   stock: string;
   categoryId: string;
-  isFavourite: boolean; // ✅ Correct spelling to match backend
+  isFavourite: boolean;
 };
 
 export default function EditProductPage() {
   const { id } = useParams();
   const router = useRouter();
 
-  // Fetch categories
   const { data: categoriesData } = useGetCategoriesQuery();
   const categories = categoriesData?.categories ?? [];
 
-  // Fetch existing product
   const { data, loading: productLoading } = useGetProductQuery({
     variables: { id: id as string },
   });
 
-  const [updateProduct, { loading: updating }] = useUpdateProductMutation();
-  const [preview, setPreview] = useState<string | null>(null);
+  const [updateProduct, { loading: updating }] =
+    useUpdateProductMutation();
 
-  // ---------- Formik ----------
+  const [preview, setPreview] = useState<string | null>(null);
+  const [newImageUrl, setNewImageUrl] = useState<string | null>(null);
+
+  // ---------- FORMIK ----------
   const formik = useFormik<EditProductForm>({
     initialValues: {
       title: "",
       slug: "",
       description: "",
-      imageUrl: "",
       price: "",
       stock: "",
       categoryId: "",
@@ -58,7 +57,6 @@ export default function EditProductPage() {
       price: Yup.number().min(1).required("Price is required"),
       stock: Yup.number().min(0).required("Stock is required"),
       categoryId: Yup.string().required("Category is required"),
-      imageUrl: Yup.string().required("Image is required"),
     }),
 
     onSubmit: async (values) => {
@@ -70,14 +68,25 @@ export default function EditProductPage() {
               title: values.title,
               slug: values.slug,
               description: values.description,
-              imageUrl: values.imageUrl,
               price: Number(values.price),
               stock: Number(values.stock),
               categoryId: values.categoryId,
-              isFavourite: values.isFavourite, // ⭐ Save Favourite state
+              isFavourite: values.isFavourite,
             },
           },
         });
+
+        // 🔥 Replace primary image if uploaded
+        if (newImageUrl) {
+          await fetch("/api/products/replace-primary-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              productId: id,
+              imageUrl: newImageUrl,
+            }),
+          });
+        }
 
         alert("Product updated successfully!");
         router.push("/admin/products");
@@ -87,44 +96,51 @@ export default function EditProductPage() {
     },
   });
 
-  // ---------- Fill form when product loads ----------
+  // ---------- LOAD PRODUCT ----------
   useEffect(() => {
     if (data?.product) {
+      const primaryImage =
+        data.product.images.find((i) => i.isPrimary)?.url ||
+        data.product.images[0]?.url ||
+        null;
+
       formik.setValues({
         title: data.product.title,
         slug: data.product.slug,
         description: data.product.description || "",
-        imageUrl: data.product.imageUrl || "",
         price: data.product.price.toString(),
         stock: data.product.stock.toString(),
         categoryId: data.product.categoryId || "",
-        isFavourite: data.product.isFavourite ?? false, // ⭐ Load favourite value
+        isFavourite: data.product.isFavourite ?? false,
       });
 
-      setPreview(data.product.imageUrl || null);
+      setPreview(primaryImage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  // ---------- Cloudinary Upload ----------
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // ---------- IMAGE UPLOAD ----------
+  const handleUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setPreview(URL.createObjectURL(file));
+    const localPreview = URL.createObjectURL(file);
+    setPreview(localPreview);
 
     const upload = await uploadToCloudinary(file);
-    formik.setFieldValue("imageUrl", upload.secure_url);
+    setNewImageUrl(upload.secure_url);
   };
 
-  if (productLoading) return <p className="p-6">Loading product...</p>;
+  if (productLoading)
+    return <p className="p-6">Loading product...</p>;
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 border rounded-lg shadow bg-white">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
-        
         {/* Title */}
         <div>
           <label className="block font-medium">Title</label>
@@ -147,9 +163,9 @@ export default function EditProductPage() {
           />
         </div>
 
-        {/* Price (INR) */}
+        {/* Price */}
         <div>
-          <label className="block font-medium">Price (in INR)</label>
+          <label className="block font-medium">Price (INR)</label>
           <input
             name="price"
             type="number"
@@ -171,9 +187,11 @@ export default function EditProductPage() {
           />
         </div>
 
-        {/* Image Upload */}
+        {/* Image */}
         <div>
-          <label className="block font-medium">Product Image</label>
+          <label className="block font-medium">
+            Primary Image
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -185,9 +203,9 @@ export default function EditProductPage() {
             <Image
               src={preview}
               alt="Preview"
-              width={120}
-              height={120}
-              className="mt-3 rounded border object-cover"
+              width={140}
+              height={140}
+              className="mt-3 rounded-xl border object-cover"
             />
           )}
         </div>
@@ -214,22 +232,20 @@ export default function EditProductPage() {
             onChange={formik.handleChange}
           >
             <option value="">Select Category</option>
-
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
-                {cat.name} ({cat.slug})
+                {cat.name}
               </option>
             ))}
           </select>
         </div>
 
-        {/* ⭐ Favourite Checkbox */}
+        {/* Favourite */}
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
             id="isFavourite"
             name="isFavourite"
-            className="w-5 h-5"
             checked={formik.values.isFavourite}
             onChange={formik.handleChange}
           />
@@ -242,7 +258,7 @@ export default function EditProductPage() {
         <button
           type="submit"
           disabled={updating}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+          className="bg-blue-600 text-white px-4 py-2 rounded w-full"
         >
           {updating ? "Updating..." : "Update Product"}
         </button>

@@ -7,28 +7,38 @@ export const GET_PRODUCTS = gql`
       title
       slug
       description
-      imageUrl
-      priceCents
-      category {
-        name
-        slug
+      price
+      stock
+      isFavourite
+      categoryId
+      subCategoryId
+      images {
+        id
+        url
+        isPrimary
+        order
       }
     }
   }
 `;
 
-export const GET_PRODUCT = gql`
-  query GetProduct($slug: String!) {
-    product(slug: $slug) {
+export const GET_PRODUCT_BY_SLUG = gql`
+  query GetProductBySlug($slug: String!) {
+    productBySlug(slug: $slug) {
       id
       title
       slug
       description
-      imageUrl
-      priceCents
+      price
       stock
-      category {
-        name
+      isFavourite
+      categoryId
+      subCategoryId
+      images {
+        id
+        url
+        isPrimary
+        order
       }
     }
   }

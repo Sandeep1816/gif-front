@@ -32,11 +32,16 @@ export default function ProductList() {
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#4A3728]">Products</h1>
+        <h1 className="text-2xl font-bold text-[#4A3728]">
+          Products
+        </h1>
 
         <Link
           href="/admin/products/create"
-          className="px-4 py-2 bg-[#4A3728] text-white rounded-lg flex items-center gap-2 hover:bg-[#6B5847]"
+          className="
+            px-4 py-2 bg-[#4A3728] text-white rounded-lg
+            flex items-center gap-2 hover:bg-[#6B5847]
+          "
         >
           <Plus size={18} /> Create Product
         </Link>
@@ -59,52 +64,62 @@ export default function ProductList() {
             </thead>
 
             <tbody>
-              {products.map((p) => (
-                <tr key={p.id} className="border-b border-[#EBD8C7] hover:bg-[#FFF3E5]">
+              {products.map((p) => {
+                const mainImage =
+                  p.images.find((img) => img.isPrimary)?.url ||
+                  p.images[0]?.url ||
+                  "/placeholder.png";
 
-                  {/* Image */}
-                  <td className="p-3">
-                    <Image
-                      src={p.imageUrl || "/placeholder.png"}
-                      width={60}
-                      height={60}
-                      alt={p.title}
-                      className="rounded border border-[#F5DCC7]"
-                    />
-                  </td>
+                return (
+                  <tr
+                    key={p.id}
+                    className="border-b border-[#EBD8C7] hover:bg-[#FFF3E5]"
+                  >
+                    {/* Image */}
+                    <td className="p-3">
+                      <Image
+                        src={mainImage}
+                        width={60}
+                        height={60}
+                        alt={p.title}
+                        className="rounded border border-[#F5DCC7]"
+                      />
+                    </td>
 
-                  {/* Title */}
-                  <td className="p-3 text-[#4A3728]">{p.title}</td>
+                    {/* Title */}
+                    <td className="p-3 text-[#4A3728]">
+                      {p.title}
+                    </td>
 
-                  {/* Price */}
-                  <td className="p-3 text-[#8B6F47] font-semibold">
-                    ₹{p.price}
-                  </td>
+                    {/* Price */}
+                    <td className="p-3 text-[#8B6F47] font-semibold">
+                      ₹{p.price}
+                    </td>
 
-                  {/* Slug */}
-                  <td className="p-3 text-[#8B7A6A]">{p.slug}</td>
+                    {/* Slug */}
+                    <td className="p-3 text-[#8B7A6A]">
+                      {p.slug}
+                    </td>
 
-                  {/* Actions */}
-                  <td className="p-3 flex items-center justify-end gap-4">
+                    {/* Actions */}
+                    <td className="p-3 flex items-center justify-end gap-4">
+                      <Link
+                        href={`/admin/products/${p.id}/edit`}
+                        className="text-[#4A3728] hover:text-[#8B6F47]"
+                      >
+                        <Pencil size={20} />
+                      </Link>
 
-                    <Link
-                      href={`/admin/products/${p.id}/edit`}
-                      className="text-[#4A3728] hover:text-[#8B6F47]"
-                    >
-                      <Pencil size={20} />
-                    </Link>
-
-                    <button
-                      onClick={() => handleDelete(p.id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      <Trash2 size={20} />
-                    </button>
-
-                  </td>
-
-                </tr>
-              ))}
+                      <button
+                        onClick={() => handleDelete(p.id)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

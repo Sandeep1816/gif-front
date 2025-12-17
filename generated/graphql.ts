@@ -32,7 +32,7 @@ export type CreateCategoryInput = {
 export type CreateProductInput = {
   categoryId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  imageUrl?: InputMaybe<Scalars['String']['input']>;
+  images?: InputMaybe<Array<ProductImageInput>>;
   isFavourite?: InputMaybe<Scalars['Boolean']['input']>;
   price: Scalars['Int']['input'];
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -113,13 +113,27 @@ export type ProductGql = {
   categoryId?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
+  images: Array<ProductImageGql>;
   isFavourite: Scalars['Boolean']['output'];
   price: Scalars['Int']['output'];
   slug: Scalars['String']['output'];
   stock: Scalars['Int']['output'];
   subCategoryId?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
+};
+
+export type ProductImageGql = {
+  __typename?: 'ProductImageGQL';
+  id: Scalars['String']['output'];
+  isPrimary: Scalars['Boolean']['output'];
+  order: Scalars['Int']['output'];
+  url: Scalars['String']['output'];
+};
+
+export type ProductImageInput = {
+  isPrimary?: InputMaybe<Scalars['Boolean']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  url: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -170,7 +184,7 @@ export type UpdateCategoryInput = {
 export type UpdateProductInput = {
   categoryId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  imageUrl?: InputMaybe<Scalars['String']['input']>;
+  images?: InputMaybe<Array<ProductImageInput>>;
   isFavourite?: InputMaybe<Scalars['Boolean']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -212,7 +226,7 @@ export type CreateProductMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductMutation = { __typename?: 'Mutation', createProduct: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, imageUrl?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null } };
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null, images: Array<{ __typename?: 'ProductImageGQL', id: string, url: string, isPrimary: boolean, order: number }> } };
 
 export type UpdateProductMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -220,7 +234,7 @@ export type UpdateProductMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, imageUrl?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null } };
+export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null, images: Array<{ __typename?: 'ProductImageGQL', id: string, url: string, isPrimary: boolean, order: number }> } };
 
 export type DeleteProductMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -266,21 +280,21 @@ export type GetCategoryQuery = { __typename?: 'Query', category?: { __typename?:
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, imageUrl?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null }> };
+export type GetProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null, images: Array<{ __typename?: 'ProductImageGQL', id: string, url: string, isPrimary: boolean, order: number }> }> };
 
 export type GetProductQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, imageUrl?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null } | null };
+export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null, images: Array<{ __typename?: 'ProductImageGQL', id: string, url: string, isPrimary: boolean, order: number }> } | null };
 
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type GetProductBySlugQuery = { __typename?: 'Query', productBySlug?: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, imageUrl?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null } | null };
+export type GetProductBySlugQuery = { __typename?: 'Query', productBySlug?: { __typename?: 'ProductGQL', id: string, title: string, slug: string, description?: string | null, price: number, stock: number, isFavourite: boolean, categoryId?: string | null, subCategoryId?: string | null, images: Array<{ __typename?: 'ProductImageGQL', id: string, url: string, isPrimary: boolean, order: number }> } | null };
 
 export type GetSubCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -414,12 +428,17 @@ export const CreateProductDocument = gql`
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
     `;
@@ -456,12 +475,17 @@ export const UpdateProductDocument = gql`
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
     `;
@@ -724,12 +748,17 @@ export const GetProductsDocument = gql`
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
     `;
@@ -772,12 +801,17 @@ export const GetProductDocument = gql`
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
     `;
@@ -821,12 +855,17 @@ export const GetProductBySlugDocument = gql`
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
     `;

@@ -25,10 +25,12 @@ export default function CategoryPage({ params }: Props) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  if (!cats || !subs || !prods) return <p className="text-center py-20">Loading...</p>;
+  if (!cats || !subs || !prods)
+    return <p className="text-center py-20">Loading...</p>;
 
   const category = cats.categories.find((c) => c.slug === categorySlug);
-  if (!category) return <p className="text-center py-20">Invalid category</p>;
+  if (!category)
+    return <p className="text-center py-20">Invalid category</p>;
 
   const categorySubcategories = subs.subcategories.filter(
     (s) => s.categoryId === category.id
@@ -112,48 +114,55 @@ export default function CategoryPage({ params }: Props) {
           <p className="text-[#6B6280]">No products available.</p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {filteredProducts.map((p) => (
-              <div
-                key={p.id}
-                className="
-                  bg-white rounded-3xl border border-[#E3DBFF]
-                  shadow-sm hover:shadow-xl transition
-                  p-4 flex flex-col
-                "
-              >
-                {/* Image */}
-                <div className="relative h-44 rounded-2xl overflow-hidden bg-[#EFEAFF]">
-                  <Image
-                    src={p.imageUrl || "/placeholder.png"}
-                    fill
-                    alt={p.title}
-                    className="object-cover hover:scale-105 transition"
-                  />
-                </div>
+            {filteredProducts.map((p) => {
+              const mainImage =
+                p.images.find((img) => img.isPrimary)?.url ||
+                p.images[0]?.url ||
+                "/placeholder.png";
 
-                {/* Title */}
-                <h2 className="text-lg font-bold text-[#2E2545] mt-4">
-                  {p.title}
-                </h2>
-
-                {/* Price */}
-                <p className="text-[#A88BFF] font-bold text-lg mt-1">
-                  ₹{p.price}
-                </p>
-
-                {/* Button */}
-                <button
-                  onClick={() => setSelectedProduct(p)}
+              return (
+                <div
+                  key={p.id}
                   className="
-                    mt-4 py-2.5 rounded-2xl font-semibold
-                    bg-[#C9B0FF] hover:bg-[#A88BFF]
-                    text-[#2E2545] transition shadow-md
+                    bg-white rounded-3xl border border-[#E3DBFF]
+                    shadow-sm hover:shadow-xl transition
+                    p-4 flex flex-col
                   "
                 >
-                  Buy Now
-                </button>
-              </div>
-            ))}
+                  {/* Image */}
+                  <div className="relative h-44 rounded-2xl overflow-hidden bg-[#EFEAFF]">
+                    <Image
+                      src={mainImage}
+                      fill
+                      alt={p.title}
+                      className="object-cover hover:scale-105 transition"
+                    />
+                  </div>
+
+                  {/* Title */}
+                  <h2 className="text-lg font-bold text-[#2E2545] mt-4">
+                    {p.title}
+                  </h2>
+
+                  {/* Price */}
+                  <p className="text-[#A88BFF] font-bold text-lg mt-1">
+                    ₹{p.price}
+                  </p>
+
+                  {/* Button */}
+                  <button
+                    onClick={() => setSelectedProduct(p)}
+                    className="
+                      mt-4 py-2.5 rounded-2xl font-semibold
+                      bg-[#C9B0FF] hover:bg-[#A88BFF]
+                      text-[#2E2545] transition shadow-md
+                    "
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

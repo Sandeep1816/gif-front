@@ -20,36 +20,48 @@ export default function UserDashboard() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {data?.products?.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-xl p-4 shadow-md border"
-            >
-              {/* Product Image */}
-              <div className="w-full h-48 relative">
-                <Image
-                  src={product.imageUrl ?? "/placeholder.png"}
-                  alt={product.title}
-                  fill
-                  className="object-cover rounded-lg"
-                />
-              </div>
+          {data?.products?.map((product) => {
+            const mainImage =
+              product.images.find((img) => img.isPrimary)?.url ||
+              product.images[0]?.url ||
+              "/placeholder.png";
 
-              <h2 className="text-lg font-bold mt-3">{product.title}</h2>
-              <p className="text-gray-600 text-sm">{product.description}</p>
-
-              <p className="text-blue-600 font-bold mt-2 text-lg">
-                ₹{product.price / 100}
-              </p>
-
-              <button
-                onClick={() => setSelectedProduct(product)}
-                className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            return (
+              <div
+                key={product.id}
+                className="bg-white rounded-xl p-4 shadow-md border"
               >
-                Buy Now
-              </button>
-            </div>
-          ))}
+                {/* Product Image */}
+                <div className="w-full h-48 relative">
+                  <Image
+                    src={mainImage}
+                    alt={product.title}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+
+                <h2 className="text-lg font-bold mt-3">
+                  {product.title}
+                </h2>
+
+                <p className="text-gray-600 text-sm">
+                  {product.description}
+                </p>
+
+                <p className="text-blue-600 font-bold mt-2 text-lg">
+                  ₹{product.price}
+                </p>
+
+                <button
+                  onClick={() => setSelectedProduct(product)}
+                  className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                >
+                  Buy Now
+                </button>
+              </div>
+            );
+          })}
         </div>
 
       </div>

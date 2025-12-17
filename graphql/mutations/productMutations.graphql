@@ -4,14 +4,20 @@ mutation CreateProduct($data: CreateProductInput!) {
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
+
 
 mutation UpdateProduct($id: String!, $data: UpdateProductInput!) {
   updateProduct(id: $id, data: $data) {
@@ -19,14 +25,20 @@ mutation UpdateProduct($id: String!, $data: UpdateProductInput!) {
     title
     slug
     description
-    imageUrl
     price
     stock
     isFavourite
     categoryId
     subCategoryId
+    images {
+      id
+      url
+      isPrimary
+      order
+    }
   }
 }
+
 
 mutation DeleteProduct($id: String!) {
   deleteProduct(id: $id) {
@@ -34,3 +46,4 @@ mutation DeleteProduct($id: String!) {
     title
   }
 }
+
