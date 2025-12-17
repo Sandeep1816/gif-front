@@ -2,36 +2,31 @@
 
 export default function TermsPage() {
   return (
-    <main className="bg-[#FFF9F5] min-h-screen py-12 px-6 md:px-20">
-      
+    <main className="min-h-screen bg-[#FBFAFF] py-14 px-6 md:px-20 text-[#2E2545]">
       <section className="max-w-4xl mx-auto space-y-8">
-        
-        <h1 className="text-4xl font-bold text-center text-[#8A1538]">
-          Terms & Conditions
+
+        <h1 className="text-4xl font-bold text-center">
+          Terms & <span className="text-[#A88BFF]">Conditions</span>
         </h1>
 
-        <PolicyCard title="1. General Information">
-          <p>By using our website, you agree to these terms.</p>
+        <PolicyCard title="General">
+          By using our website, you agree to all terms stated below.
         </PolicyCard>
 
-        <PolicyCard title="2. Products & Services">
-          <p>Handcrafted items may slightly vary from the product images.</p>
+        <PolicyCard title="Products">
+          Handcrafted items may slightly vary from images shown online.
         </PolicyCard>
 
-        <PolicyCard title="3. Custom Orders">
-          <p>Custom items cannot be cancelled or returned unless damaged or defective.</p>
+        <PolicyCard title="Custom Orders">
+          Custom orders cannot be cancelled or refunded unless damaged.
         </PolicyCard>
 
-        <PolicyCard title="4. Pricing">
-          <p>All prices include applicable taxes. Payments are online only.</p>
+        <PolicyCard title="Payments">
+          All prices include applicable taxes. Payments are accepted online only.
         </PolicyCard>
 
-        <PolicyCard title="5. Shipping">
-          <p>Please refer to our Shipping Policy.</p>
-        </PolicyCard>
-
-        <PolicyCard title="6. User Responsibilities">
-          <p>Provide accurate information and avoid misuse of our website.</p>
+        <PolicyCard title="User Responsibility">
+          Users must provide accurate information and avoid misuse of the platform.
         </PolicyCard>
 
       </section>
@@ -41,9 +36,9 @@ export default function TermsPage() {
 
 function PolicyCard({ title, children }: any) {
   return (
-    <div className="bg-[#F7DDE2] border border-[#E8C7C7] rounded-xl p-6 shadow-sm space-y-2">
-      <h2 className="text-xl font-semibold text-[#8A1538]">{title}</h2>
-      <div className="text-[#3A2F2F]">{children}</div>
+    <div className="bg-[#EFEAFF] border border-[#E3DBFF] rounded-3xl p-6 shadow-sm space-y-2">
+      <h2 className="text-xl font-semibold">{title}</h2>
+      <p className="text-[#6B6280]">{children}</p>
     </div>
   );
 }

@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
 export default function FAQPage() {
   const faqs = [
     {
@@ -20,37 +23,104 @@ export default function FAQPage() {
     },
     {
       q: "Can I track my order?",
-      a: "Yes, once your order is shipped, tracking details will be shared via email/WhatsApp.",
+      a: "Yes, once your order is shipped, tracking details will be shared via email or WhatsApp.",
     },
   ];
 
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   return (
-    <main className="bg-[#FFF9F5] min-h-screen py-12 px-6 md:px-20 text-[#3A2F2F]">
-      <section className="max-w-4xl mx-auto space-y-10">
+    <main className="min-h-screen bg-[#FBFAFF] py-14 px-6 md:px-20 text-[#2E2545]">
+      <section className="max-w-4xl mx-auto">
 
         {/* Page Title */}
-        <h1 className="text-4xl font-bold text-center text-[#8A1538]">
+        <h1 className="text-4xl font-bold text-center mb-12">
           Frequently Asked Questions
+          <span className="block mt-2 text-[#A88BFF] text-lg font-medium">
+            We’re here to help 💜
+          </span>
         </h1>
 
-        {/* FAQ LIST */}
+        {/* FAQ List */}
         <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <div
-              key={i}
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+
+            return (
+              <div
+                key={i}
+                className="
+                  bg-[#EFEAFF] rounded-3xl border border-[#E3DBFF]
+                  overflow-hidden transition shadow-sm
+                "
+              >
+                {/* Question */}
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="
+                    w-full flex justify-between items-center
+                    px-6 py-5 text-left
+                    hover:bg-[#E6DEFF] transition
+                  "
+                >
+                  <h3 className="font-semibold text-lg text-[#2E2545]">
+                    {faq.q}
+                  </h3>
+
+                  <ChevronDown
+                    className={`
+                      w-5 h-5 text-[#A88BFF] transition-transform
+                      ${isOpen ? "rotate-180" : ""}
+                    `}
+                  />
+                </button>
+
+                {/* Answer */}
+                {isOpen && (
+                  <div className="px-6 pb-5 text-[#6B6280] leading-relaxed">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Support CTA */}
+        <div className="mt-14 text-center bg-[#EFEAFF] border border-[#E3DBFF]
+                        rounded-3xl p-8 shadow-sm">
+          <h2 className="text-2xl font-bold text-[#2E2545]">
+            Still have questions?
+          </h2>
+          <p className="text-[#6B6280] mt-2">
+            Our team is happy to help you anytime
+          </p>
+
+          <div className="flex justify-center gap-4 mt-6">
+            <a
+              href="tel:+918660391647"
               className="
-                bg-[#F7DDE2] p-6 rounded-xl border border-[#E8C7C7] shadow-sm
-                hover:shadow-md transition
+                px-6 py-3 rounded-2xl font-semibold
+                bg-[#A88BFF] text-white
+                hover:bg-[#9175FF] transition shadow-md
               "
             >
-              <h3 className="font-semibold text-lg text-[#8A1538]">
-                {faq.q}
-              </h3>
-              <p className="mt-2 text-[#3A2F2F]/80 leading-relaxed">
-                {faq.a}
-              </p>
-            </div>
-          ))}
+              Call Us
+            </a>
+
+            <a
+              href="https://wa.me/918660391647"
+              target="_blank"
+              className="
+                px-6 py-3 rounded-2xl font-semibold
+                bg-white text-[#2E2545]
+                border border-[#E3DBFF]
+                hover:bg-[#E6DEFF] transition shadow-md
+              "
+            >
+              WhatsApp
+            </a>
+          </div>
         </div>
 
       </section>

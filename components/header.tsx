@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Heart, ShoppingCart, User, Menu, X, MapPin } from 'lucide-react'
 import { useState } from 'react'
 import SearchBar from './SearchBar'
@@ -18,9 +19,21 @@ export default function Header() {
           <span>Where to deliver?</span>
         </div>
 
+        {/* 🔗 UPDATED LINKS */}
         <div className="flex gap-6 text-[#2E2545]">
-          <a className="hover:text-[#A88BFF] transition">Help & FAQ</a>
-          <a className="hover:text-[#A88BFF] transition">Contact Us</a>
+          <Link
+            href="/faqs"
+            className="hover:text-[#A88BFF] transition"
+          >
+            Help & FAQ
+          </Link>
+
+          <a
+            href="tel:+918660391647"
+            className="hover:text-[#A88BFF] transition"
+          >
+            Contact Us
+          </a>
         </div>
       </div>
 
@@ -29,9 +42,11 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4">
 
           {/* Logo */}
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wide text-[#2E2545]">
-            Gifts <span className="text-[#A88BFF]">Destiny</span>
-          </h1>
+          <Link href="/">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-wide text-[#2E2545] cursor-pointer">
+              Gifts <span className="text-[#A88BFF]">Destiny</span>
+            </h1>
+          </Link>
 
           {/* Search */}
           <div className="hidden md:flex flex-1 max-w-md">
@@ -75,6 +90,14 @@ export default function Header() {
                 {item}
               </button>
             ))}
+
+            {/* 📞 MOBILE CONTACT */}
+            <a
+              href="tel:+918660391647"
+              className="block px-4 py-2 rounded-lg hover:bg-[#EFEAFF] text-[#2E2545]"
+            >
+              Contact Us
+            </a>
           </div>
         )}
       </div>
