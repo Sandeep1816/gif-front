@@ -28,16 +28,18 @@ export default function Categories() {
 
   if (loading)
     return (
-      <section className="bg-[#FFF9F5] py-4">
-        <p className="text-center text-[#8A1538]/70">Loading categories...</p>
+      <section className="bg-[#FBFAFF] py-4">
+        <p className="text-center text-[#6B6280]">
+          Loading categories...
+        </p>
       </section>
     );
 
   const categories = data?.categories ?? [];
 
   return (
-    <section className="bg-[#FFF9F5] py-4">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4">
+    <section className="bg-[#FBFAFF] py-6">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-5">
         {categories.map((cat) => {
           const Icon = iconMap[cat.slug] || Users;
 
@@ -46,21 +48,35 @@ export default function Categories() {
               key={cat.id}
               onClick={() => router.push(`/category/${cat.slug}`)}
               className="
-                flex flex-col items-center gap-2.5 p-4 rounded-xl
-                border border-[#E8C7C7] bg-white
-                hover:bg-[#F7DDE2] hover:border-[#D4A5A5]
-                transition-all duration-300 group shadow-sm hover:shadow-md
+                group flex flex-col items-center gap-3 p-4 rounded-2xl
+                bg-white border border-[#E3DBFF]
+                hover:border-[#C9B0FF] hover:bg-[#EFEAFF]
+                shadow-sm hover:shadow-lg
+                transition-all duration-300
                 active:scale-95
               "
             >
-              <Icon
+              {/* Icon */}
+              <div
                 className="
-                  w-6 h-6 md:w-7 md:h-7 text-[#8A1538]
-                  group-hover:scale-110 transition-transform duration-200
+                  flex items-center justify-center
+                  w-12 h-12 rounded-full
+                  bg-[#EFEAFF] group-hover:bg-[#C9B0FF]/40
+                  transition
                 "
-              />
+              >
+                <Icon
+                  className="
+                    w-6 h-6 text-[#2E2545]
+                    group-hover:text-[#A88BFF]
+                    group-hover:scale-110
+                    transition-all
+                  "
+                />
+              </div>
 
-              <span className="text-xs md:text-sm text-center font-medium text-[#3A2F2F] leading-snug">
+              {/* Text */}
+              <span className="text-xs md:text-sm text-center font-semibold text-[#2E2545] leading-tight">
                 {cat.name || "Category"}
               </span>
             </button>

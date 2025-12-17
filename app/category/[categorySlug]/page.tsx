@@ -25,112 +25,119 @@ export default function CategoryPage({ params }: Props) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  if (!cats || !subs || !prods) return <p>Loading...</p>;
+  if (!cats || !subs || !prods) return <p className="text-center py-20">Loading...</p>;
 
   const category = cats.categories.find((c) => c.slug === categorySlug);
-  if (!category) return <p>Invalid category URL</p>;
+  if (!category) return <p className="text-center py-20">Invalid category</p>;
 
   const categorySubcategories = subs.subcategories.filter(
     (s) => s.categoryId === category.id
   );
 
   const filteredProducts = prods.products.filter(
-    (p) => p.categoryId === category.id
+    (p) =>
+      p.categoryId === category.id &&
+      p.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <main className="min-h-screen bg-[#FFF9F5] py-10">
+    <main className="min-h-screen bg-[#FBFAFF] py-12">
       <div className="container mx-auto px-4">
 
         {/* PAGE TITLE */}
-        <h1 className="text-4xl font-bold text-[#8A1538] mb-6">
-          Gifts {category.name}
+        <h1 className="text-4xl md:text-5xl font-bold text-[#2E2545] mb-8">
+          Gifts for <span className="text-[#A88BFF]">{category.name}</span>
         </h1>
 
         {/* SEARCH BAR */}
-        <div className="relative mb-8">
+        <div className="relative mb-10 max-w-xl">
           <input
             type="text"
             placeholder="Search gifts"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="
-              w-full bg-white py-3 pl-4 pr-10 rounded-xl shadow-sm 
-              border border-[#E8C7C7] text-[#3A2F2F] placeholder-[#8A1538]/40
-              focus:outline-none focus:ring-2 focus:ring-[#D4A5A5]
+              w-full py-3 pl-4 pr-10 rounded-2xl
+              bg-white border border-[#E3DBFF]
+              text-[#2E2545] placeholder:text-[#6B6280]
+              focus:outline-none focus:ring-2 focus:ring-[#C9B0FF]
+              transition
             "
           />
-          <Search className="absolute right-3 top-3.5 w-5 h-5 text-[#8A1538]/70" />
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A88BFF]" />
         </div>
 
-        {/* BUDGET FRIENDLY BANNER */}
-        <div className="
-          bg-[#F7DDE2] p-6 rounded-2xl flex justify-between items-center mb-10 
-          border border-[#E8C7C7] shadow-sm
-        ">
+        {/* BANNER */}
+        <div
+          className="
+            bg-gradient-to-r from-[#EFEAFF] to-[#FBFAFF]
+            p-6 rounded-3xl flex items-center justify-between
+            border border-[#E3DBFF] shadow-sm mb-12
+          "
+        >
           <div>
-            <h2 className="text-xl font-bold text-[#8A1538]">
-              Budget-friendly gifts
+            <h2 className="text-xl font-bold text-[#2E2545]">
+              Budget-friendly gifts 🎁
             </h2>
-            <p className="text-sm text-[#3A2F2F]/70">
-              Choose thoughtful gifts without overspending
+            <p className="text-sm text-[#6B6280]">
+              Thoughtful gifts that don’t hurt your wallet
             </p>
           </div>
-          <div className="text-5xl">🎁</div>
+          <span className="text-5xl hidden sm:block">💜</span>
         </div>
 
         {/* SUBCATEGORIES */}
         {categorySubcategories.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-14">
             {categorySubcategories.map((sub) => (
               <a
                 key={sub.id}
                 href={`/category/${category.slug}/${sub.slug}`}
                 className="
-                  p-4 bg-white rounded-xl shadow border border-[#E8C7C7]
-                  text-center hover:shadow-md hover:bg-[#FFF3F7] 
-                  hover:border-[#D4A5A5] transition
+                  p-4 rounded-2xl bg-white
+                  border border-[#E3DBFF]
+                  text-center font-semibold text-[#2E2545]
+                  hover:bg-[#EFEAFF] hover:border-[#C9B0FF]
+                  shadow-sm hover:shadow-md transition
                 "
               >
-                <p className="font-semibold text-[#8A1538]">{sub.name}</p>
+                {sub.name}
               </a>
             ))}
           </div>
         )}
 
-        {/* PRODUCT LIST */}
+        {/* PRODUCTS */}
         {filteredProducts.length === 0 ? (
-          <p className="text-[#8A1538]/70">No products available.</p>
+          <p className="text-[#6B6280]">No products available.</p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {filteredProducts.map((p) => (
               <div
                 key={p.id}
                 className="
-                  bg-white rounded-2xl shadow p-4 border border-[#E8C7C7] 
-                  hover:shadow-lg transition flex flex-col
+                  bg-white rounded-3xl border border-[#E3DBFF]
+                  shadow-sm hover:shadow-xl transition
+                  p-4 flex flex-col
                 "
               >
                 {/* Image */}
-                <div className="
-                  relative h-40 w-full rounded-xl overflow-hidden bg-[#F7DDE2]
-                  border border-[#E8C7C7]
-                ">
+                <div className="relative h-44 rounded-2xl overflow-hidden bg-[#EFEAFF]">
                   <Image
                     src={p.imageUrl || "/placeholder.png"}
                     fill
                     alt={p.title}
-                    className="object-cover"
+                    className="object-cover hover:scale-105 transition"
                   />
                 </div>
 
                 {/* Title */}
-                <h2 className="text-lg font-bold text-[#8A1538] mt-4">
+                <h2 className="text-lg font-bold text-[#2E2545] mt-4">
                   {p.title}
                 </h2>
 
                 {/* Price */}
-                <p className="text-[#3A2F2F] font-semibold text-lg mt-1">
+                <p className="text-[#A88BFF] font-bold text-lg mt-1">
                   ₹{p.price}
                 </p>
 
@@ -138,8 +145,9 @@ export default function CategoryPage({ params }: Props) {
                 <button
                   onClick={() => setSelectedProduct(p)}
                   className="
-                    mt-3 bg-[#8A1538] hover:bg-[#72102D] text-white py-2 
-                    rounded-xl font-semibold transition shadow-sm
+                    mt-4 py-2.5 rounded-2xl font-semibold
+                    bg-[#C9B0FF] hover:bg-[#A88BFF]
+                    text-[#2E2545] transition shadow-md
                   "
                 >
                   Buy Now
@@ -152,7 +160,10 @@ export default function CategoryPage({ params }: Props) {
 
       {/* MODAL */}
       {selectedProduct && (
-        <BuyNowModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+        <BuyNowModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
       )}
     </main>
   );
