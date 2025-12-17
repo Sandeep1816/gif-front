@@ -11,6 +11,15 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import Image from "next/image";
+import { X } from "lucide-react";
+
+/* ---------------- TYPES ---------------- */
+
+type ImageItem = {
+  id?: string;
+  url: string;
+  isPrimary: boolean;
+};
 
 type EditProductForm = {
   title: string;
@@ -22,6 +31,8 @@ type EditProductForm = {
   isFavourite: boolean;
 };
 
+/* ---------------- COMPONENT ---------------- */
+
 export default function EditProductPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -29,17 +40,17 @@ export default function EditProductPage() {
   const { data: categoriesData } = useGetCategoriesQuery();
   const categories = categoriesData?.categories ?? [];
 
-  const { data, loading: productLoading } = useGetProductQuery({
+  const { data, loading } = useGetProductQuery({
     variables: { id: id as string },
   });
 
   const [updateProduct, { loading: updating }] =
     useUpdateProductMutation();
 
-  const [preview, setPreview] = useState<string | null>(null);
-  const [newImageUrl, setNewImageUrl] = useState<string | null>(null);
+  const [images, setImages] = useState<ImageItem[]>([]);
 
-  // ---------- FORMIK ----------
+  /* ---------------- FORMIK ---------------- */
+
   const formik = useFormik<EditProductForm>({
     initialValues: {
       title: "",
@@ -72,21 +83,14 @@ export default function EditProductPage() {
               stock: Number(values.stock),
               categoryId: values.categoryId,
               isFavourite: values.isFavourite,
+              images: images.map((img, index) => ({
+                url: img.url,
+                isPrimary: img.isPrimary,
+                order: index + 1,
+              })),
             },
           },
         });
-
-        // 🔥 Replace primary image if uploaded
-        if (newImageUrl) {
-          await fetch("/api/products/replace-primary-image", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              productId: id,
-              imageUrl: newImageUrl,
-            }),
-          });
-        }
 
         alert("Product updated successfully!");
         router.push("/admin/products");
@@ -96,169 +100,212 @@ export default function EditProductPage() {
     },
   });
 
-  // ---------- LOAD PRODUCT ----------
+  /* ---------------- LOAD PRODUCT ---------------- */
+
   useEffect(() => {
-    if (data?.product) {
-      const primaryImage =
-        data.product.images.find((i) => i.isPrimary)?.url ||
-        data.product.images[0]?.url ||
-        null;
+    if (!data?.product) return;
 
-      formik.setValues({
-        title: data.product.title,
-        slug: data.product.slug,
-        description: data.product.description || "",
-        price: data.product.price.toString(),
-        stock: data.product.stock.toString(),
-        categoryId: data.product.categoryId || "",
-        isFavourite: data.product.isFavourite ?? false,
-      });
+    formik.setValues({
+      title: data.product.title,
+      slug: data.product.slug,
+      description: data.product.description || "",
+      price: data.product.price.toString(),
+      stock: data.product.stock.toString(),
+      categoryId: data.product.categoryId || "",
+      isFavourite: data.product.isFavourite,
+    });
 
-      setPreview(primaryImage);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setImages(
+      data.product.images.map((img) => ({
+        id: img.id,
+        url: img.url,
+        isPrimary: img.isPrimary,
+      }))
+    );
   }, [data]);
 
-  // ---------- IMAGE UPLOAD ----------
+  /* ---------------- IMAGE HANDLERS ---------------- */
+
   const handleUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files) return;
 
-    const localPreview = URL.createObjectURL(file);
-    setPreview(localPreview);
+    const uploaded: ImageItem[] = [];
 
-    const upload = await uploadToCloudinary(file);
-    setNewImageUrl(upload.secure_url);
+    for (let i = 0; i < files.length; i++) {
+      const res = await uploadToCloudinary(files[i]);
+      uploaded.push({
+        url: res.secure_url,
+        isPrimary: images.length === 0 && i === 0,
+      });
+    }
+
+    setImages([...images, ...uploaded]);
   };
 
-  if (productLoading)
-    return <p className="p-6">Loading product...</p>;
+  const makePrimary = (index: number) => {
+    setImages(
+      images.map((img, i) => ({
+        ...img,
+        isPrimary: i === index,
+      }))
+    );
+  };
+
+  const removeImage = (index: number) => {
+    const updated = images.filter((_, i) => i !== index);
+    if (!updated.some((img) => img.isPrimary) && updated.length > 0) {
+      updated[0].isPrimary = true;
+    }
+    setImages(updated);
+  };
+
+  if (loading) return <p className="p-6">Loading product...</p>;
+
+  const primaryImage =
+    images.find((i) => i.isPrimary)?.url || "/placeholder.png";
+
+  /* ---------------- UI ---------------- */
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 border rounded-lg shadow bg-white">
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
 
-      <form onSubmit={formik.handleSubmit} className="space-y-4">
-        {/* Title */}
+      <form onSubmit={formik.handleSubmit} className="space-y-6">
+
+        {/* PRIMARY IMAGE */}
         <div>
-          <label className="block font-medium">Title</label>
+          <label className="font-medium block mb-2">Primary Image</label>
+          <div className="relative w-72 h-72 rounded-2xl overflow-hidden border bg-gray-100">
+            <Image src={primaryImage} alt="Primary" fill className="object-cover" />
+          </div>
+        </div>
+
+        {/* GALLERY IMAGES */}
+        <div>
+          <label className="font-medium block mb-2">Gallery Images</label>
+
+          <div className="flex gap-3 flex-wrap">
+            {images.map((img, i) => (
+              <div
+                key={i}
+                className={`relative w-24 h-24 rounded-xl overflow-hidden border ${
+                  img.isPrimary ? "ring-2 ring-blue-600" : ""
+                }`}
+              >
+                <Image src={img.url} fill alt="" className="object-cover" />
+
+                <button
+                  type="button"
+                  onClick={() => removeImage(i)}
+                  className="absolute top-1 right-1 bg-white rounded-full p-1"
+                >
+                  <X size={14} />
+                </button>
+
+                {!img.isPrimary && (
+                  <button
+                    type="button"
+                    onClick={() => makePrimary(i)}
+                    className="absolute bottom-1 left-1 text-xs bg-blue-600 text-white px-1 rounded"
+                  >
+                    Primary
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
           <input
-            name="title"
-            className="border p-2 w-full rounded"
-            value={formik.values.title}
-            onChange={formik.handleChange}
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleUpload}
+            className="mt-3"
           />
         </div>
 
-        {/* Slug */}
-        <div>
-          <label className="block font-medium">Slug</label>
-          <input
-            name="slug"
-            className="border p-2 w-full rounded"
-            value={formik.values.slug}
-            onChange={formik.handleChange}
-          />
-        </div>
+        {/* TITLE */}
+        <input
+          name="title"
+          placeholder="Title"
+          className="border p-2 w-full rounded"
+          value={formik.values.title}
+          onChange={formik.handleChange}
+        />
 
-        {/* Price */}
-        <div>
-          <label className="block font-medium">Price (INR)</label>
+        {/* SLUG */}
+        <input
+          name="slug"
+          placeholder="Slug"
+          className="border p-2 w-full rounded"
+          value={formik.values.slug}
+          onChange={formik.handleChange}
+        />
+
+        {/* PRICE & STOCK */}
+        <div className="grid grid-cols-2 gap-4">
           <input
             name="price"
             type="number"
-            className="border p-2 w-full rounded"
+            placeholder="Price"
+            className="border p-2 rounded"
             value={formik.values.price}
             onChange={formik.handleChange}
           />
-        </div>
-
-        {/* Stock */}
-        <div>
-          <label className="block font-medium">Stock</label>
           <input
             name="stock"
             type="number"
-            className="border p-2 w-full rounded"
+            placeholder="Stock"
+            className="border p-2 rounded"
             value={formik.values.stock}
             onChange={formik.handleChange}
           />
         </div>
 
-        {/* Image */}
-        <div>
-          <label className="block font-medium">
-            Primary Image
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleUpload}
-            className="border p-2 w-full rounded"
-          />
+        {/* DESCRIPTION */}
+        <textarea
+          name="description"
+          rows={4}
+          placeholder="Description"
+          className="border p-2 w-full rounded"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+        />
 
-          {preview && (
-            <Image
-              src={preview}
-              alt="Preview"
-              width={140}
-              height={140}
-              className="mt-3 rounded-xl border object-cover"
-            />
-          )}
-        </div>
+        {/* CATEGORY */}
+        <select
+          name="categoryId"
+          className="border p-2 w-full rounded"
+          value={formik.values.categoryId}
+          onChange={formik.handleChange}
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
 
-        {/* Description */}
-        <div>
-          <label className="block font-medium">Description</label>
-          <textarea
-            name="description"
-            rows={4}
-            className="border p-2 w-full rounded"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block font-medium">Category</label>
-          <select
-            name="categoryId"
-            className="border p-2 w-full rounded"
-            value={formik.values.categoryId}
-            onChange={formik.handleChange}
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Favourite */}
+        {/* FAVOURITE */}
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            id="isFavourite"
             name="isFavourite"
             checked={formik.values.isFavourite}
             onChange={formik.handleChange}
           />
-          <label htmlFor="isFavourite" className="font-medium">
-            Mark as Favourite ⭐
-          </label>
+          <span>Mark as Favourite ⭐</span>
         </div>
 
-        {/* Submit */}
+        {/* SUBMIT */}
         <button
           type="submit"
           disabled={updating}
-          className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+          className="bg-blue-600 text-white py-2 rounded w-full"
         >
           {updating ? "Updating..." : "Update Product"}
         </button>

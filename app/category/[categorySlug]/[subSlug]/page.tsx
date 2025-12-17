@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import BuyNowModal from "@/components/BuyNowModal";
+import Link from "next/link";
 
 interface Props {
   params: Promise<{ categorySlug: string; subSlug: string }>;
@@ -36,13 +37,17 @@ export default function SubCategoryPage({ params }: Props) {
   if (!subcategory)
     return <p className="text-center py-20">Invalid subcategory</p>;
 
-  const filteredProducts = prods.products.filter(
-    (p) => p.subCategoryId === subcategory.id
-  );
+  const filteredProducts = prods.products.map((p) => {
+    return {
+      ...p,
+      categorySlug: category.slug,
+      subCategorySlug: subcategory.slug,
+    };
+  }).filter((p) => p.subCategoryId === subcategory.id);
 
   return (
     <main className="min-h-screen bg-[#FBFAFF] py-12">
-      <div className="container mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-6">
 
         {/* Heading */}
         <h1 className="text-3xl md:text-4xl font-bold mb-12 text-[#2E2545]">
@@ -71,25 +76,31 @@ export default function SubCategoryPage({ params }: Props) {
                     p-4 flex flex-col
                   "
                 >
-                  {/* Image */}
-                  <div className="relative h-48 rounded-2xl overflow-hidden bg-[#EFEAFF]">
-                    <Image
-                      src={mainImage}
-                      alt={p.title}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+                  {/* CLICKABLE AREA */}
+                  <Link
+                    href={`/category/${p.categorySlug}/${p.subCategorySlug}/${p.slug}`}
+                    className="group"
+                  >
+                    {/* Image */}
+                    <div className="relative h-48 rounded-2xl overflow-hidden bg-[#EFEAFF]">
+                      <Image
+                        src={mainImage}
+                        alt={p.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition"
+                      />
+                    </div>
 
-                  {/* Title */}
-                  <h2 className="text-lg font-bold text-[#2E2545] mt-4">
-                    {p.title}
-                  </h2>
+                    {/* Title */}
+                    <h2 className="text-lg font-bold text-[#2E2545] mt-4">
+                      {p.title}
+                    </h2>
 
-                  {/* Price */}
-                  <p className="text-[#A88BFF] font-bold mt-1">
-                    ₹{p.price}
-                  </p>
+                    {/* Price */}
+                    <p className="text-[#A88BFF] font-bold mt-1">
+                      ₹{p.price}
+                    </p>
+                  </Link>
 
                   {/* Buy Now */}
                   <button
